@@ -1,4 +1,4 @@
-package com.arifwidayana.challengechapter7.data.local.model
+package com.arifwidayana.challengechapter7.data.local.model.response
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
