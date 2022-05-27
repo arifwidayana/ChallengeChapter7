@@ -7,7 +7,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.arifwidayana.challengechapter7.data.local.model.UserPreference
+import com.arifwidayana.challengechapter7.data.local.model.response.UserPreference
 import com.arifwidayana.challengechapter7.utils.Constant
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
