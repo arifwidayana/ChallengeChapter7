@@ -1,7 +1,8 @@
-package com.arifwidayana.challengechapter7
+package com.arifwidayana.challengechapter7.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.arifwidayana.challengechapter7.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
