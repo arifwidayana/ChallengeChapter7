@@ -51,7 +51,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                     showLoading(false)
                     Toast.makeText(requireContext(), R.string.login_success, Toast.LENGTH_SHORT)
                         .show()
-                    findNavController().navigate(R.id.action_loginFragment_to_mainHomepageFragment)
+                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                     getViewModel().getLoginUserLiveData().removeObservers(viewLifecycleOwner)
                 }
                 is Resource.Error -> {
@@ -111,7 +111,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     override fun onStart() {
         super.onStart()
         if (shared.getBoolean(Constant.LOGIN, false)) {
-            findNavController().navigate(R.id.action_loginFragment_to_mainHomepageFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
 
