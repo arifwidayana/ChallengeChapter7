@@ -1,4 +1,4 @@
-package com.arifwidayana.challengechapter7.base
+package com.arifwidayana.challengechapter7.base.model
 
 class Resource {
     sealed class Resource<T>(
