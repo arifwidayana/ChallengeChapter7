@@ -7,20 +7,20 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        demoRelease {
-            storeFile file('E:\\All Project Android\\BinarAcademy\\Chapter 7\\tes.jks')
-            storePassword '123456'
-            keyAlias 'ari'
-            keyPassword '123456'
-        }
-        FullRelease {
-            storeFile file('E:\\All Project Android\\BinarAcademy\\Chapter 7\\full.jks')
-            storePassword '123456'
-            keyAlias 'ari'
-            keyPassword '123456'
-        }
-    }
+//    signingConfigs {
+//        demoRelease {
+//            storeFile file('E:\\All Project Android\\BinarAcademy\\Chapter 7\\tes.jks')
+//            storePassword '123456'
+//            keyAlias 'ari'
+//            keyPassword '123456'
+//        }
+//        FullRelease {
+//            storeFile file('E:\\All Project Android\\BinarAcademy\\Chapter 7\\full.jks')
+//            storePassword '123456'
+//            keyAlias 'ari'
+//            keyPassword '123456'
+//        }
+//    }
 
     compileSdk 32
 
@@ -37,24 +37,24 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.demoRelease
-            signingConfig signingConfigs.FullRelease
+//            signingConfig signingConfigs.demoRelease
+//            signingConfig signingConfigs.FullRelease
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    flavorDimensions "version"
-    productFlavors {
-        demo {
-            dimension "version"
-            applicationIdSuffix ".demo"
-            versionNameSuffix "-demo"
-        }
-        full {
-            dimension "version"
-            applicationIdSuffix ".full"
-            versionNameSuffix "-full"
-        }
-    }
+//    flavorDimensions "version"
+//    productFlavors {
+//        demo {
+//            dimension "version"
+//            applicationIdSuffix ".demo"
+//            versionNameSuffix "-demo"
+//        }
+//        full {
+//            dimension "version"
+//            applicationIdSuffix ".full"
+//            versionNameSuffix "-full"
+//        }
+//    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
