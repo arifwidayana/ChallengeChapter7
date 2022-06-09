@@ -7,8 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
 
-abstract class BaseViewModel<VM: ViewModel>(
-): Fragment(), BaseContract.BaseView {
+abstract class BaseViewModel<VM: ViewModel>: Fragment(), BaseContract.BaseView {
 
     @Inject
     lateinit var viewModelInstance: VM

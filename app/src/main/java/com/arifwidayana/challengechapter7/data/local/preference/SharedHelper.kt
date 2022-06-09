@@ -20,9 +20,9 @@ class SharedHelper(context: Context) {
         return sharedPref.getBoolean(key, value)
     }
 
-    fun getString(key: String, value: String): String? {
-        return sharedPref.getString(key, value)
-    }
+//    fun getString(key: String, value: String): String? {
+//        return sharedPref.getString(key, value)
+//    }
 
     fun getString(key: String): String? {
         return sharedPref.getString(key, null)

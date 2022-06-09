@@ -8,10 +8,7 @@ import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -98,7 +95,7 @@ class RegisterFragment : BaseViewModel<RegisterViewModel>(
             val phone = remember { mutableStateOf("") }
             val username = remember { mutableStateOf("") }
             val password = remember { mutableStateOf("") }
-            TextField(
+            OutlinedTextField(
                 value = name.value,
                 onValueChange = { name.value = it },
                 label = { Text(text = "Name") },
@@ -108,7 +105,7 @@ class RegisterFragment : BaseViewModel<RegisterViewModel>(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            TextField(
+            OutlinedTextField(
                 value = email.value,
                 onValueChange = { email.value = it },
                 label = { Text(text = "Email") },
@@ -118,7 +115,7 @@ class RegisterFragment : BaseViewModel<RegisterViewModel>(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            TextField(
+            OutlinedTextField(
                 value = age.value,
                 onValueChange = { age.value = it },
                 label = { Text(text = "Age") },
@@ -128,7 +125,7 @@ class RegisterFragment : BaseViewModel<RegisterViewModel>(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            TextField(
+            OutlinedTextField(
                 value = phone.value,
                 onValueChange = { phone.value = it },
                 label = { Text(text = "Phone") },
@@ -138,7 +135,7 @@ class RegisterFragment : BaseViewModel<RegisterViewModel>(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            TextField(
+            OutlinedTextField(
                 value = username.value,
                 onValueChange = { username.value = it },
                 label = { Text(text = "Username") },
@@ -148,7 +145,7 @@ class RegisterFragment : BaseViewModel<RegisterViewModel>(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            TextField(
+            OutlinedTextField(
                 value = password.value,
                 onValueChange = { password.value = it },
                 label = { Text(text = "Password") },
