@@ -7,7 +7,7 @@ import com.arifwidayana.challengechapter7.data.local.model.response.UserEntity
 
 interface RegisterContract {
     interface View: BaseContract.BaseView {
-        fun checkFormValidation(): Boolean
+//        fun onClick()
     }
 
     interface ViewModel: BaseContract.BaseViewModel {
