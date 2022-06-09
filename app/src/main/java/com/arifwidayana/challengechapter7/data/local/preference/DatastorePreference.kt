@@ -39,11 +39,11 @@ class DatastorePreference @Inject constructor(
         }
     }
 
-    suspend fun saveOnBoardSession(userPreference: UserPreference) {
-        context.dataStore.edit {
-            it[ON_BOARDING] = userPreference.onBoardSession
-        }
-    }
+//    suspend fun saveOnBoardSession(userPreference: UserPreference) {
+//        context.dataStore.edit {
+//            it[ON_BOARDING] = userPreference.onBoardSession
+//        }
+//    }
 
     suspend fun deleteUserSession() {
         context.dataStore.edit {
