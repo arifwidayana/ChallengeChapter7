@@ -15,21 +15,18 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>(
     private val bindingFactory: (LayoutInflater) -> VB
 ): Fragment(), BaseContract.BaseView {
 
-    private var bind: VB? = null
-    private val binding: VB get() = bind as VB
+    private var _binding: VB? = null
+    private val binding: VB get() = _binding as VB
     @Inject
     lateinit var viewModelInstance: VM
-
-    fun getViewBinding(): VB = binding
-    fun getViewModel(): VM = viewModelInstance
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bind = bindingFactory.invoke(inflater)
-        when (bind) {
+        _binding = bindingFactory.invoke(inflater)
+        when (_binding) {
             null -> throw IllegalArgumentException("Binding cannot be null")
         }
         return binding.root
@@ -43,26 +40,27 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>(
 
     override fun onDestroy() {
         super.onDestroy()
-        bind = null
+        _binding = null
     }
 
     abstract fun initView()
-    override fun observeData() {
-        //do nothing
-    }
+    abstract fun observeData()
 
-    override fun showContent(isVisible: Boolean) {
-        //do nothing
-    }
+    override fun showContent(isVisible: Boolean) { }
+    override fun showLoading(isVisible: Boolean) { }
 
-    override fun showLoading(isVisible: Boolean) {
-        //do nothing
-    }
-
-    override fun showError(isErrorEnabled: Boolean, msg: String?) {
+    override fun showMessageToast(isEnabled: Boolean, message: String?) {
         when{
-            isErrorEnabled -> {
-                Toast.makeText(requireContext(), "Message: $msg", Toast.LENGTH_SHORT).show()
+            isEnabled -> {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun showMessageSnackBar(isEnabled: Boolean, message: String?) {
+        when{
+            isEnabled -> {
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
         }
     }
