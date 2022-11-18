@@ -1,12 +1,13 @@
 package com.arifwidayana.challengechapter7.utils
 
 object Constant {
-    //DatastorePreference
-    const val FINISHED = "FINISHED"
-    const val PREF = "PREF"
-    const val USERNAME = "USERNAME"
-    const val PASSWORD = "PASSWORD"
-    const val LOGIN = "LOGIN"
+    //Database
+    const val MOVIE_DB = "Movie.db"
+
+    //Datastore Preference
+    const val DATASTORE_PREF = "DATASTORE_PREF"
+    const val BOARDING_PREF = "BOARDING_PREF"
+    const val USERNAME_PREF = "USERNAME_PREF"
 
     //Api & Endpoint
     const val BASE_URL = "https://api.themoviedb.org/3/"
@@ -18,4 +19,5 @@ object Constant {
     const val UP_COMING = "movie/upcoming"
     const val TOP_RATED = "movie/top_rated"
     const val DETAIL_MOVIES = "movie/{id}"
+    const val ID_PATH = "id"
 }
