@@ -1,6 +1,7 @@
 package com.arifwidayana.challengechapter7.di
 
 import com.arifwidayana.challengechapter7.base.arch.BaseGenericViewModel
+import com.arifwidayana.challengechapter7.data.repository.SplashScreenRepository
 import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginRepository
 import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginViewModel
 import com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterRepository
@@ -13,6 +14,7 @@ import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileViewModel
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.user.ProfileUserRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.user.ProfileUserViewModel
+import com.arifwidayana.challengechapter7.presentation.ui.splashscreen.SplashScreenViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +24,14 @@ import dagger.hilt.android.scopes.FragmentScoped
 @Module
 @InstallIn(FragmentComponent::class)
 object ViewModelModule {
+    @Provides
+    @FragmentScoped
+    fun provideSplashScreenViewModel(splashScreenRepository: SplashScreenRepository): SplashScreenViewModel {
+        return BaseGenericViewModel(SplashScreenViewModel(splashScreenRepository)).create(
+            SplashScreenViewModel::class.java
+        )
+    }
+
     @Provides
     @FragmentScoped
     fun movieListViewModel(homepageRepository: HomeRepository): HomeViewModel {

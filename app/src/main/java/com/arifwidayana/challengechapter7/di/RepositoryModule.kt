@@ -1,7 +1,10 @@
 package com.arifwidayana.challengechapter7.di
 
 import com.arifwidayana.challengechapter7.data.local.datasource.LocalDataSource
+import com.arifwidayana.challengechapter7.data.local.datasource.UserPreferenceDataSource
 import com.arifwidayana.challengechapter7.data.network.datasource.MovieDataSource
+import com.arifwidayana.challengechapter7.data.repository.SplashScreenRepository
+import com.arifwidayana.challengechapter7.data.repository.SplashScreenRepositoryImpl
 import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginRepository
 import com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesRepository
@@ -17,6 +20,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+    @Provides
+    @Singleton
+    fun provideSplashScreenRepository(userPreferenceDataSource: UserPreferenceDataSource): SplashScreenRepository {
+        return SplashScreenRepositoryImpl(userPreferenceDataSource)
+    }
+
     @Singleton
     @Provides
     fun provideMovieListRepository(movieDataSource: MovieDataSource, localDataSource: LocalDataSource): HomeRepository {
