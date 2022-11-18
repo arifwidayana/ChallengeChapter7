@@ -3,6 +3,8 @@ package com.arifwidayana.challengechapter7.di
 import com.arifwidayana.challengechapter7.data.local.datasource.LocalDataSource
 import com.arifwidayana.challengechapter7.data.local.datasource.UserPreferenceDataSource
 import com.arifwidayana.challengechapter7.data.network.datasource.MovieDataSource
+import com.arifwidayana.challengechapter7.data.repository.OnBoardingRepository
+import com.arifwidayana.challengechapter7.data.repository.OnBoardingRepositoryImpl
 import com.arifwidayana.challengechapter7.data.repository.SplashScreenRepository
 import com.arifwidayana.challengechapter7.data.repository.SplashScreenRepositoryImpl
 import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginRepository
@@ -24,6 +26,12 @@ object RepositoryModule {
     @Singleton
     fun provideSplashScreenRepository(userPreferenceDataSource: UserPreferenceDataSource): SplashScreenRepository {
         return SplashScreenRepositoryImpl(userPreferenceDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOnBoardingRepository(userPreferenceDataSource: UserPreferenceDataSource): OnBoardingRepository {
+        return OnBoardingRepositoryImpl(userPreferenceDataSource)
     }
 
     @Singleton
