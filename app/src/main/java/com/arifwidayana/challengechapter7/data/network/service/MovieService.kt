@@ -1,7 +1,7 @@
 package com.arifwidayana.challengechapter7.data.network.service
 
-import com.arifwidayana.challengechapter7.data.network.model.response.details.DetailsMovie
-import com.arifwidayana.challengechapter7.data.network.model.response.listmovies.ListPlayingMovie
+import com.arifwidayana.challengechapter7.data.network.model.response.movie.MovieResponse
+import com.arifwidayana.challengechapter7.data.network.model.response.movie.details.DetailMovieResponse
 import com.arifwidayana.challengechapter7.utils.Constant
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import okhttp3.OkHttpClient
@@ -13,19 +13,19 @@ import java.util.concurrent.TimeUnit
 
 interface MovieService {
     @GET(Constant.NOW_PLAYING)
-    suspend fun getNowPlayingMovie(): ListPlayingMovie
+    suspend fun getNowPlayingMovie(): MovieResponse
 
     @GET(Constant.POPULAR)
-    suspend fun getPopularMovie(): ListPlayingMovie
+    suspend fun getPopularMovie(): MovieResponse
 
     @GET(Constant.UP_COMING)
-    suspend fun getUpComingMovie(): ListPlayingMovie
+    suspend fun getUpComingMovie(): MovieResponse
 
     @GET(Constant.TOP_RATED)
-    suspend fun getTopRatedMovie(): ListPlayingMovie
+    suspend fun getTopRatedMovie(): MovieResponse
 
     @GET(Constant.DETAIL_MOVIES)
-    suspend fun getDetailMovie(@Path("id") id: Int?): DetailsMovie
+    suspend fun getDetailMovie(@Path(Constant.ID_PATH) id: Int?): DetailMovieResponse
 
     companion object {
         @JvmStatic
