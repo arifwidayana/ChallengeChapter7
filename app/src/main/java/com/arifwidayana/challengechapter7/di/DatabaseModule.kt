@@ -2,7 +2,8 @@ package com.arifwidayana.challengechapter7.di
 
 import android.content.Context
 import androidx.room.Room
-import com.arifwidayana.challengechapter7.data.local.DatabaseStore
+import com.arifwidayana.challengechapter7.data.local.MovieDatabase
+import com.arifwidayana.challengechapter7.utils.Constant
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,23 +14,23 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-    @Singleton
     @Provides
+    @Singleton
     fun provideDatabase(
         @ApplicationContext context: Context
-    ): DatabaseStore = Room
+    ): MovieDatabase = Room
         .databaseBuilder(
             context,
-            DatabaseStore::class.java,
-            "data.db"
+            MovieDatabase::class.java,
+            Constant.MOVIE_DB
         )
         .build()
 
-    @Singleton
     @Provides
-    fun provideUserDao(databaseStore: DatabaseStore) = databaseStore.userDao()
+    @Singleton
+    fun provideUserDao(movieDatabase: MovieDatabase) = movieDatabase.userDao()
 
-//    @Singleton
-//    @Provides
-//    fun provideFavoriteDao(databaseStore: DatabaseStore) = databaseStore.favoriteDao()
+    @Provides
+    @Singleton
+    fun provideFavoriteDao(movieDatabase: MovieDatabase) = movieDatabase.favoriteDao()
 }
