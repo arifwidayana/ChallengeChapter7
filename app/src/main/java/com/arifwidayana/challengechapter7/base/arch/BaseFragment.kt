@@ -16,7 +16,7 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>(
 ): Fragment(), BaseContract.BaseView {
 
     private var _binding: VB? = null
-    protected val binding: VB? get() = _binding
+    protected val binding: VB get() = _binding!!
     @Inject
     protected lateinit var viewModelInstance: VM
 
@@ -29,7 +29,7 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>(
         when (_binding) {
             null -> throw IllegalArgumentException("Binding cannot be null")
         }
-        return binding?.root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
