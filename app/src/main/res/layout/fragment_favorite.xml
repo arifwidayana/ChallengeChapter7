@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.homepage.favorite.FavoriteFragment">
+    tools:context=".presentation.ui.homepage.favorite.FavoriteFragment">
 
     <ImageView
         android:id="@+id/iv_back_homepage"

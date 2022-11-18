@@ -1,13 +1,13 @@
 package com.arifwidayana.challengechapter7.di
 
 import com.arifwidayana.challengechapter7.data.local.datasource.LocalDataSource
-import com.arifwidayana.challengechapter7.data.network.datasource.MoviesDataSource
-import com.arifwidayana.challengechapter7.ui.auth.login.LoginRepository
-import com.arifwidayana.challengechapter7.ui.auth.register.RegisterRepository
-import com.arifwidayana.challengechapter7.ui.homepage.detailsmovie.DetailMoviesRepository
-import com.arifwidayana.challengechapter7.ui.homepage.home.HomeRepository
-import com.arifwidayana.challengechapter7.ui.homepage.profile.edit.EditProfileRepository
-import com.arifwidayana.challengechapter7.ui.homepage.profile.user.ProfileUserRepository
+import com.arifwidayana.challengechapter7.data.network.datasource.MovieDataSource
+import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginRepository
+import com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterRepository
+import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesRepository
+import com.arifwidayana.challengechapter7.presentation.ui.homepage.home.HomeRepository
+import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileRepository
+import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.user.ProfileUserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,13 +19,13 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Singleton
     @Provides
-    fun provideMovieListRepository(moviesDataSource: MoviesDataSource, localDataSource: LocalDataSource): HomeRepository {
-        return HomeRepository(moviesDataSource, localDataSource)
+    fun provideMovieListRepository(movieDataSource: MovieDataSource, localDataSource: LocalDataSource): HomeRepository {
+        return HomeRepository(movieDataSource, localDataSource)
     }
     @Singleton
     @Provides
-    fun provideMovieDetailsRepository(moviesDataSource: MoviesDataSource): DetailMoviesRepository {
-        return DetailMoviesRepository(moviesDataSource)
+    fun provideMovieDetailsRepository(movieDataSource: MovieDataSource): DetailMoviesRepository {
+        return DetailMoviesRepository(movieDataSource)
     }
     @Singleton
     @Provides

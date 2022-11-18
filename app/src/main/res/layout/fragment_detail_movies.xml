@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.homepage.detailsmovie.DetailMoviesFragment">
+    tools:context=".presentation.ui.homepage.detailsmovie.DetailMoviesFragment">
 
     <ProgressBar
         android:id="@+id/pb_detail_movies"

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashScreen"
-        android:name="com.arifwidayana.challengechapter7.ui.splashscreen.SplashScreenFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.splashscreen.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/onBoarding"
-        android:name="com.arifwidayana.challengechapter7.ui.boarding.OnBoardingFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.boarding.OnBoardingFragment"
         android:label="fragment_on_boarding"
         tools:layout="@layout/fragment_on_boarding" >
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.arifwidayana.challengechapter7.ui.auth.login.LoginFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.arifwidayana.challengechapter7.ui.auth.register.RegisterFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" >
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.arifwidayana.challengechapter7.ui.homepage.home.HomeFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.homepage.home.HomeFragment"
         android:label="fragment_homep"
         tools:layout="@layout/fragment_home" >
         <action
@@ -81,7 +81,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileUserFragment"
-        android:name="com.arifwidayana.challengechapter7.ui.homepage.profile.user.ProfileUserFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.user.ProfileUserFragment"
         android:label="fragment_profile_user"
         tools:layout="@layout/fragment_profile_user" >
         <action
@@ -101,7 +101,7 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.arifwidayana.challengechapter7.ui.homepage.profile.edit.EditProfileFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileFragment"
         android:label="fragment_edit_profile"
         tools:layout="@layout/fragment_edit_profile" >
         <action
@@ -117,7 +117,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailMoviesFragment"
-        android:name="com.arifwidayana.challengechapter7.ui.homepage.detailsmovie.DetailMoviesFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesFragment"
         android:label="fragment_detail_movies"
         tools:layout="@layout/fragment_detail_movies" >
         <action
@@ -132,7 +132,7 @@
     </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.arifwidayana.challengechapter7.ui.homepage.favorite.FavoriteFragment"
+        android:name="com.arifwidayana.challengechapter7.presentation.ui.homepage.favorite.FavoriteFragment"
         android:label="FavoriteFragment" >
         <action
             android:id="@+id/action_favoriteFragment_to_homeFragment"

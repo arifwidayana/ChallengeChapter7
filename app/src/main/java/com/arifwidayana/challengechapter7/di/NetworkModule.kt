@@ -13,14 +13,15 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    @Singleton
     @Provides
-    fun provideMovieService(chuckerInterceptor: ChuckerInterceptor): MovieService {
-        return MovieService.invoke(chuckerInterceptor)
-    }
     @Singleton
-    @Provides
     fun provideChuckerInterceptor(@ApplicationContext context: Context): ChuckerInterceptor {
         return ChuckerInterceptor.Builder(context).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieService(chuckerInterceptor: ChuckerInterceptor): MovieService {
+        return MovieService.invoke(chuckerInterceptor)
     }
 }
