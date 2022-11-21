@@ -3,9 +3,9 @@ package com.arifwidayana.challengechapter7.di
 import com.arifwidayana.challengechapter7.base.arch.BaseGenericViewModel
 import com.arifwidayana.challengechapter7.data.repository.OnBoardingRepository
 import com.arifwidayana.challengechapter7.data.repository.SplashScreenRepository
-import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginRepository
+import com.arifwidayana.challengechapter7.data.repository.LoginRepository
 import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginViewModel
-import com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterRepository
+import com.arifwidayana.challengechapter7.data.repository.RegisterRepository
 import com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterViewModel
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesViewModel
@@ -44,6 +44,14 @@ object ViewModelModule {
 
     @Provides
     @FragmentScoped
+    fun provideLoginViewModel(loginRepository: LoginRepository): LoginViewModel {
+        return BaseGenericViewModel(LoginViewModel(loginRepository)).create(
+            LoginViewModel::class.java
+        )
+    }
+
+    @Provides
+    @FragmentScoped
     fun movieListViewModel(homepageRepository: HomeRepository): HomeViewModel {
         return BaseGenericViewModel(HomeViewModel(homepageRepository)).create(
             HomeViewModel::class.java
@@ -54,13 +62,6 @@ object ViewModelModule {
     fun movieDetailViewModel(detailMoviesRepository: DetailMoviesRepository): DetailMoviesViewModel {
         return BaseGenericViewModel(DetailMoviesViewModel(detailMoviesRepository)).create(
             DetailMoviesViewModel::class.java
-        )
-    }
-    @Provides
-    @FragmentScoped
-    fun loginViewModel(loginRepository: LoginRepository): LoginViewModel {
-        return BaseGenericViewModel(LoginViewModel(loginRepository)).create(
-            LoginViewModel::class.java
         )
     }
     @Provides

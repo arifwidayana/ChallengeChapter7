@@ -1,85 +1,62 @@
 package com.arifwidayana.challengechapter7.presentation.ui.auth.login
 
-import android.widget.Toast
-import androidx.core.view.isVisible
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import com.arifwidayana.challengechapter7.R
 import com.arifwidayana.challengechapter7.base.arch.BaseFragment
 import com.arifwidayana.challengechapter7.base.model.Resource
+import com.arifwidayana.challengechapter7.data.local.model.request.LoginRequest
 import com.arifwidayana.challengechapter7.databinding.FragmentLoginBinding
-import com.arifwidayana.challengechapter7.utils.Constant
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
     FragmentLoginBinding::inflate
-), LoginContract.View {
-    private lateinit var shared: SharedHelper
-
+) {
     override fun initView() {
         onClick()
-        observeData()
     }
 
-    override fun onClick() {
-        shared = SharedHelper(requireContext())
-
-        getViewBinding().apply {
-            tvRegister.setOnClickListener {
-                findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
-            }
-
+    private fun onClick() {
+        binding.apply {
             btnLogin.setOnClickListener {
                 authLoginUser()
             }
+            tvRegister.setOnClickListener {
+                moveNav(R.id.action_loginFragment_to_registerFragment)
+            }
         }
-    }
-
-    override fun showLoading(isVisible: Boolean) {
-        getViewBinding().pbLoading.isVisible = isVisible
     }
 
     override fun observeData() {
-        showLoading(false)
-        getViewModel().getLoginUserLiveData().observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Loading -> {
-                    showLoading(true)
-                }
-                is Resource.Success -> {
-                    showLoading(false)
-                    Toast.makeText(requireContext(), R.string.login_success, Toast.LENGTH_SHORT)
-                        .show()
-                    findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                    getViewModel().getLoginUserLiveData().removeObservers(viewLifecycleOwner)
-                }
-                is Resource.Error -> {
-                    showLoading(false)
-                    Toast.makeText(requireContext(), R.string.login_failed, Toast.LENGTH_SHORT)
-                        .show()
+        lifecycleScope.launchWhenStarted {
+            viewModelInstance.loginUserResult.collect {
+                if (it is Resource.Success) {
+                    showMessageToast(true, it.message)
+                    moveNav(R.id.action_loginFragment_to_homeFragment)
                 }
             }
         }
-
     }
 
     private fun authLoginUser() {
-        getViewBinding().apply {
-            val user = etUsername.text.toString()
-            val pass = etPassword.text.toString()
-
+        binding.apply {
+            val username = etUsername.text.toString()
+            val password = etPassword.text.toString()
             when {
                 checkFormValidation() -> {
-                    getViewModel().loginUser(user, pass)
-                    loginSession(user, pass)
+                    viewModelInstance.loginUser(
+                        LoginRequest(
+                            username = username,
+                            password = password
+                        )
+                    )
                 }
             }
-
         }
     }
 
-    override fun checkFormValidation(): Boolean {
-        getViewBinding().apply {
+    private fun checkFormValidation(): Boolean {
+        binding.apply {
             var isValid = true
             val user = etUsername.text.toString()
             val pass = etPassword.text.toString()
@@ -106,20 +83,4 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             return isValid
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        if (shared.getBoolean(Constant.LOGIN, false)) {
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        }
-    }
-
-    private fun loginSession(user: String, pass: String) {
-        shared.apply {
-            put(Constant.USERNAME_PREF, user)
-            put(Constant.PASSWORD, pass)
-            put(Constant.LOGIN, true)
-        }
-    }
-
 }

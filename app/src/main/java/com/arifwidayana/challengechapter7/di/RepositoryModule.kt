@@ -3,12 +3,8 @@ package com.arifwidayana.challengechapter7.di
 import com.arifwidayana.challengechapter7.data.local.datasource.LocalDataSource
 import com.arifwidayana.challengechapter7.data.local.datasource.UserPreferenceDataSource
 import com.arifwidayana.challengechapter7.data.network.datasource.MovieDataSource
-import com.arifwidayana.challengechapter7.data.repository.OnBoardingRepository
-import com.arifwidayana.challengechapter7.data.repository.OnBoardingRepositoryImpl
-import com.arifwidayana.challengechapter7.data.repository.SplashScreenRepository
-import com.arifwidayana.challengechapter7.data.repository.SplashScreenRepositoryImpl
-import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginRepository
-import com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterRepository
+import com.arifwidayana.challengechapter7.data.repository.*
+import com.arifwidayana.challengechapter7.data.repository.RegisterRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.home.HomeRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileRepository
@@ -34,6 +30,12 @@ object RepositoryModule {
         return OnBoardingRepositoryImpl(userPreferenceDataSource)
     }
 
+    @Provides
+    @Singleton
+    fun provideLoginRepository(localDataSource: LocalDataSource): LoginRepository {
+        return LoginRepositoryImpl(localDataSource)
+    }
+
     @Singleton
     @Provides
     fun provideMovieListRepository(movieDataSource: MovieDataSource, localDataSource: LocalDataSource): HomeRepository {
@@ -43,11 +45,6 @@ object RepositoryModule {
     @Provides
     fun provideMovieDetailsRepository(movieDataSource: MovieDataSource): DetailMoviesRepository {
         return DetailMoviesRepository(movieDataSource)
-    }
-    @Singleton
-    @Provides
-    fun provideLoginRepository(localDataSource: LocalDataSource): LoginRepository {
-        return LoginRepository(localDataSource)
     }
     @Singleton
     @Provides

@@ -1,38 +1,29 @@
 package com.arifwidayana.challengechapter7.presentation.ui.auth.login
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.local.model.request.LoginRequest
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
+import com.arifwidayana.challengechapter7.data.repository.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginRepository: LoginRepository
-): BaseViewModellmpl(), LoginContract.ViewModel {
-    private val syncUserLiveData = MutableLiveData<Resource<UserEntity>>()
+): LoginContract, ViewModel() {
+    private val _loginUserResult = MutableStateFlow<Resource<UserEntity>>(Resource.Empty())
+    override val loginUserResult: StateFlow<Resource<UserEntity>> = _loginUserResult
 
-    override fun getLoginUserLiveData(): LiveData<Resource<UserEntity>> = syncUserLiveData
-
-    override fun loginUser(username: String, password: String) {
-        syncUserLiveData.value = Resource.Loading()
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val responseDataUser = loginRepository.postLoginUser(LoginRequest(username, password))
-                viewModelScope.launch(Dispatchers.Main) {
-                    syncUserLiveData.value = Resource.Success(responseDataUser)
-                }
-            } catch (e: Exception) {
-                viewModelScope.launch(Dispatchers.Main) {
-                    syncUserLiveData.value = Resource.Error(null, e.message.orEmpty())
-                }
+    override fun loginUser(loginRequest: LoginRequest) {
+        viewModelScope.launch {
+            loginRepository.loginUser(loginRequest).collect {
+                _loginUserResult.value = Resource.Success(it.data)
             }
         }
     }
-
 }
