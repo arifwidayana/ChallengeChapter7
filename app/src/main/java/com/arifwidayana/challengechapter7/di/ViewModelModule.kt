@@ -52,6 +52,14 @@ object ViewModelModule {
 
     @Provides
     @FragmentScoped
+    fun provideRegisterViewModel(registerRepository: RegisterRepository): RegisterViewModel {
+        return BaseGenericViewModel(RegisterViewModel(registerRepository)).create(
+            RegisterViewModel::class.java
+        )
+    }
+
+    @Provides
+    @FragmentScoped
     fun movieListViewModel(homepageRepository: HomeRepository): HomeViewModel {
         return BaseGenericViewModel(HomeViewModel(homepageRepository)).create(
             HomeViewModel::class.java
@@ -62,13 +70,6 @@ object ViewModelModule {
     fun movieDetailViewModel(detailMoviesRepository: DetailMoviesRepository): DetailMoviesViewModel {
         return BaseGenericViewModel(DetailMoviesViewModel(detailMoviesRepository)).create(
             DetailMoviesViewModel::class.java
-        )
-    }
-    @Provides
-    @FragmentScoped
-    fun registerViewModel(registerRepository: RegisterRepository): RegisterViewModel {
-        return BaseGenericViewModel(RegisterViewModel(registerRepository)).create(
-            RegisterViewModel::class.java
         )
     }
     @Provides
