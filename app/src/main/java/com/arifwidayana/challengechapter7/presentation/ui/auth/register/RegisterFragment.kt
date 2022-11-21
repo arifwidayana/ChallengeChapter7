@@ -1,28 +1,25 @@
 package com.arifwidayana.challengechapter7.presentation.ui.auth.register
 
-import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import com.arifwidayana.challengechapter7.R
 import com.arifwidayana.challengechapter7.base.arch.BaseFragment
 import com.arifwidayana.challengechapter7.base.model.Resource
-import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
+import com.arifwidayana.challengechapter7.data.local.model.request.RegisterRequest
 import com.arifwidayana.challengechapter7.databinding.FragmentRegisterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel>(
     FragmentRegisterBinding::inflate
-), RegisterContract.View {
-
+) {
     override fun initView() {
         onClick()
-        observeData()
     }
 
     private fun onClick() {
-        getViewBinding().apply {
+        binding.apply {
             tvSignIn.setOnClickListener {
-                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                moveNav(R.id.action_registerFragment_to_loginFragment)
             }
             btnRegister.setOnClickListener {
                 authRegisterUser()
@@ -30,10 +27,41 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
         }
     }
 
-    override fun checkFormValidation(): Boolean {
-        getViewBinding().apply {
-            var isValid = true
+    override fun observeData() {
+        lifecycleScope.launchWhenStarted {
+            viewModelInstance.registerUserResult.collect {
+                if (it is Resource.Success) {
+                    showMessageToast(true, it.message)
+                    moveNav(R.id.action_loginFragment_to_homeFragment)
+                }
+                else if (it is Resource.Error) {
+                    showMessageSnackBar(true, it.message)
+                }
+            }
+        }
+    }
 
+    private fun authRegisterUser() {
+        binding.apply {
+            if (checkFormValidation()) {
+                viewModelInstance.registerUser(
+                    RegisterRequest(
+                        name = etRegisterName.text.toString(),
+                        imageProfile = null,
+                        email = etRegisterEmail.text.toString(),
+                        age = etRegisterAge.text.toString().toInt(),
+                        phoneNumber = etRegisterPhoneNumber.text.toString(),
+                        username = etRegisterUsername.text.toString(),
+                        password = etRegisterPassword.text.toString()
+                    )
+                )
+            }
+        }
+    }
+
+    private fun checkFormValidation(): Boolean {
+        binding.apply {
+            var isValid = true
             when {
                 etRegisterName.text.toString().isEmpty() -> {
                     tfRegisterName.error = "Fill the name"
@@ -71,54 +99,4 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
             return isValid
         }
     }
-
-    override fun observeData() {
-        showLoading(false)
-        getViewModel().apply {
-            getRegisterUserLiveData().observe(viewLifecycleOwner) {
-                when (it) {
-                    is Resource.Loading -> {
-                        showLoading(true)
-                    }
-                    is Resource.Success -> {
-                        showLoading(false)
-                        Toast.makeText(requireContext(), "Register Success", Toast.LENGTH_SHORT)
-                            .show()
-                        findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-                        getViewModel().getRegisterUserLiveData().removeObservers(viewLifecycleOwner)
-                    }
-                    is Resource.Error -> {
-                        showLoading(false)
-                        Toast.makeText(
-                            requireContext(),
-                            "Register Fail, Please make sure the fill",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-
-        }
-    }
-
-    private fun authRegisterUser() {
-        getViewBinding().apply {
-            if (checkFormValidation()) {
-                getViewModel().registerUser(
-                    UserEntity(
-                        id = null,
-                        name = etRegisterName.text.toString(),
-                        profile = null,
-                        email = etRegisterEmail.text.toString(),
-                        age = etRegisterAge.text.toString().toInt(),
-                        phone_number = etRegisterPhoneNumber.text.toString(),
-                        username = etRegisterUsername.text.toString(),
-                        password = etRegisterPassword.text.toString()
-                    )
-                )
-            }
-
-        }
-    }
-
 }

@@ -36,6 +36,12 @@ object RepositoryModule {
         return LoginRepositoryImpl(localDataSource)
     }
 
+    @Provides
+    @Singleton
+    fun provideRegisterRepository(localDataSource: LocalDataSource): RegisterRepository {
+        return RegisterRepositoryImpl(localDataSource)
+    }
+
     @Singleton
     @Provides
     fun provideMovieListRepository(movieDataSource: MovieDataSource, localDataSource: LocalDataSource): HomeRepository {
@@ -45,11 +51,6 @@ object RepositoryModule {
     @Provides
     fun provideMovieDetailsRepository(movieDataSource: MovieDataSource): DetailMoviesRepository {
         return DetailMoviesRepository(movieDataSource)
-    }
-    @Singleton
-    @Provides
-    fun provideRegisterRepository(localDataSource: LocalDataSource): RegisterRepository {
-        return RegisterRepository(localDataSource)
     }
     @Singleton
     @Provides
