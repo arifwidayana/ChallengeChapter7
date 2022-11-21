@@ -5,11 +5,12 @@ import com.arifwidayana.challengechapter7.data.local.model.dao.UserDao
 import com.arifwidayana.challengechapter7.data.local.model.entity.FavoriteEntity
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
 import com.arifwidayana.challengechapter7.data.local.model.request.LoginRequest
+import com.arifwidayana.challengechapter7.data.local.model.request.RegisterRequest
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface LocalDataSource {
-    suspend fun registerUser(userEntity: UserEntity)
+    suspend fun registerUser(registerRequest: RegisterRequest)
     suspend fun loginUser(loginRequest: LoginRequest): Flow<UserEntity>
     suspend fun getUser(username: String): Flow<UserEntity>
     suspend fun updateUser(userEntity: UserEntity)
@@ -22,8 +23,21 @@ class LocalDataSourceImpl @Inject constructor(
     private val userDao: UserDao,
     private val favoriteDao: FavoriteDao
 ): LocalDataSource {
-    override suspend fun registerUser(userEntity: UserEntity) {
-        return userDao.insertUser(userEntity)
+    override suspend fun registerUser(registerRequest: RegisterRequest) {
+        return userDao.insertUser(
+            with(registerRequest) {
+                UserEntity(
+                    id = null,
+                    name = name,
+                    imageProfile = imageProfile,
+                    email = email,
+                    age = age,
+                    phoneNumber = phoneNumber,
+                    username = username,
+                    password = password
+                )
+            }
+        )
     }
 
     override suspend fun loginUser(loginRequest: LoginRequest): Flow<UserEntity> {
