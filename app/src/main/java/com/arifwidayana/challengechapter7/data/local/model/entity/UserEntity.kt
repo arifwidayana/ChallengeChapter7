@@ -11,13 +11,13 @@ data class UserEntity(
     @ColumnInfo(name = "name_user")
     var name: String?,
     @ColumnInfo(name = "profile_user")
-    var profile: String?,
+    var imageProfile: String?,
     @ColumnInfo(name = "email_user")
     var email: String?,
     @ColumnInfo(name = "age")
     var age: Int?,
     @ColumnInfo(name = "phone_number_user")
-    var phone_number: String?,
+    var phoneNumber: String?,
     @ColumnInfo(name = "username_user")
     var username: String?,
     @ColumnInfo(name = "password_user")
