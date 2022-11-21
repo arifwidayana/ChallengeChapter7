@@ -6,5 +6,6 @@ interface BaseContract {
         fun showLoading(isVisible: Boolean)
         fun showMessageToast(isEnabled: Boolean, message: String? = null)
         fun showMessageSnackBar(isEnabled: Boolean, message: String? = null)
+        fun moveNav(navUp: Int)
     }
 }
