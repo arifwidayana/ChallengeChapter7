@@ -34,6 +34,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
                     showMessageToast(true, it.message)
                     moveNav(R.id.action_loginFragment_to_homeFragment)
                 }
+                else if (it is Resource.Error) {
+                    showMessageSnackBar(true, it.message)
+                }
             }
         }
     }

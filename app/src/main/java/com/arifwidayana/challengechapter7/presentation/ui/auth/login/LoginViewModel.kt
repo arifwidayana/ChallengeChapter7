@@ -22,7 +22,11 @@ class LoginViewModel @Inject constructor(
     override fun loginUser(loginRequest: LoginRequest) {
         viewModelScope.launch {
             loginRepository.loginUser(loginRequest).collect {
-                _loginUserResult.value = Resource.Success(it.data)
+                if (it.data?.username == loginRequest.username && it.data?.password == loginRequest.password) {
+                    _loginUserResult.value = Resource.Success(it.data)
+                } else {
+                    _loginUserResult.value = Resource.Error(message = "Username and password is wrong")
+                }
             }
         }
     }
