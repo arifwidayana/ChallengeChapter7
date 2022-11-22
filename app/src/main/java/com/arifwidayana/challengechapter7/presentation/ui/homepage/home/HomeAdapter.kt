@@ -1,25 +1,25 @@
-package com.arifwidayana.challengechapter7.presentation.ui.adapter
+package com.arifwidayana.challengechapter7.presentation.ui.homepage.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.arifwidayana.challengechapter7.data.network.model.response.movie.ResultListPlaying
+import com.arifwidayana.challengechapter7.data.network.model.response.movie.MovieResponse
 import com.arifwidayana.challengechapter7.databinding.ItemCardMoviesBinding
 import com.arifwidayana.challengechapter7.utils.Constant
 import com.bumptech.glide.Glide
 
-class ListPlayingMoviesAdapter(private val onClick: (ResultListPlaying) -> Unit) :
-    ListAdapter<ResultListPlaying, ListPlayingMoviesAdapter.MoviesHolder>(
+class HomeAdapter(private val onClick: (MovieResponse.Result) -> Unit) :
+    ListAdapter<MovieResponse.Result, HomeAdapter.MoviesHolder>(
         Differ()
     ) {
 
     class MoviesHolder(
         private val binding: ItemCardMoviesBinding,
-        private val onClick: (ResultListPlaying) -> Unit
+        private val onClick: (MovieResponse.Result) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun result(currentMovies: ResultListPlaying) {
+        fun result(currentMovies: MovieResponse.Result) {
             binding.apply {
                 tvTitle.text = currentMovies.title
                 tvOverview.text = currentMovies.overview
@@ -34,17 +34,17 @@ class ListPlayingMoviesAdapter(private val onClick: (ResultListPlaying) -> Unit)
         }
     }
 
-    class Differ : DiffUtil.ItemCallback<ResultListPlaying>() {
+    class Differ : DiffUtil.ItemCallback<MovieResponse.Result>() {
         override fun areItemsTheSame(
-            oldItem: ResultListPlaying,
-            newItem: ResultListPlaying
+            oldItem: MovieResponse.Result,
+            newItem: MovieResponse.Result
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: ResultListPlaying,
-            newItem: ResultListPlaying
+            oldItem: MovieResponse.Result,
+            newItem: MovieResponse.Result
         ): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
