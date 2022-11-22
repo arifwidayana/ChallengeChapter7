@@ -1,14 +1,13 @@
 package com.arifwidayana.challengechapter7.base.arch
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import java.lang.IllegalArgumentException
@@ -16,7 +15,7 @@ import javax.inject.Inject
 
 abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>(
     private val bindingFactory: (LayoutInflater) -> VB
-): Fragment(), BaseContract.BaseView {
+): Fragment(), BaseContract {
 
     private var _binding: VB? = null
     protected val binding: VB get() = _binding!!
@@ -70,5 +69,9 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>(
 
     override fun moveNav(navUp: Int) {
         findNavController().navigate(navUp)
+    }
+
+    override fun moveNav(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 }
