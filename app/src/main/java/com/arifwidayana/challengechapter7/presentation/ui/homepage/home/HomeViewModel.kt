@@ -1,105 +1,75 @@
 package com.arifwidayana.challengechapter7.presentation.ui.homepage.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
-import com.arifwidayana.challengechapter7.data.network.model.response.movie.ListPlayingMovie
+import com.arifwidayana.challengechapter7.data.network.model.response.movie.MovieResponse
+import com.arifwidayana.challengechapter7.data.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val homepageRepository: HomeRepository
-): BaseViewModellmpl(), HomeContract.ViewModel {
-    private val movieListNowPlayingLiveData = MutableLiveData<Resource<ListPlayingMovie>>()
-    private val movieListPopularLiveData = MutableLiveData<Resource<ListPlayingMovie>>()
-    private val movieListUpcomingLiveData = MutableLiveData<Resource<ListPlayingMovie>>()
-    private val movieListTopRatedLiveData = MutableLiveData<Resource<ListPlayingMovie>>()
-    private val getUserData = MutableLiveData<UserEntity>()
+    private val homeRepository: HomeRepository
+): HomeContract, ViewModel() {
+    private val _getUserResult = MutableStateFlow<Resource<UserEntity>>(Resource.Empty())
+    private val _getNowPlayingResult = MutableStateFlow<Resource<MovieResponse>>(Resource.Empty())
+    private val _getPopularResult = MutableStateFlow<Resource<MovieResponse>>(Resource.Empty())
+    private val _getUpComingResult = MutableStateFlow<Resource<MovieResponse>>(Resource.Empty())
+    private val _getTopRatedResult = MutableStateFlow<Resource<MovieResponse>>(Resource.Empty())
+    override val getUserResult: StateFlow<Resource<UserEntity>> = _getUserResult
+    override val getNowPlayingResult: StateFlow<Resource<MovieResponse>> = _getNowPlayingResult
+    override val getPopularResult: StateFlow<Resource<MovieResponse>> = _getPopularResult
+    override val getUpComingResult: StateFlow<Resource<MovieResponse>> = _getUpComingResult
+    override val getTopRatedResult: StateFlow<Resource<MovieResponse>> = _getTopRatedResult
 
-    override fun getUserResult(): LiveData<UserEntity> = getUserData
-    override fun getNowPlayingResultLiveData(): LiveData<Resource<ListPlayingMovie>> = movieListNowPlayingLiveData
-    override fun getPopularResultLiveData(): LiveData<Resource<ListPlayingMovie>> = movieListPopularLiveData
-    override fun getUpComingResultLiveData(): LiveData<Resource<ListPlayingMovie>> = movieListUpcomingLiveData
-    override fun getTopRatedResultLiveData(): LiveData<Resource<ListPlayingMovie>> = movieListTopRatedLiveData
-
-    override fun getUser(username: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val responseDataUser = homepageRepository.getUser(username)
-            withContext(Dispatchers.Main) {
-                getUserData.value = responseDataUser
+    override fun getUser() {
+        viewModelScope.launch {
+            homeRepository.getUsername().collect {
+                homeRepository.getUser(it.data.toString()).collect { source ->
+                    _getUserResult.value = Resource.Success(source.data)
+                }
             }
         }
     }
 
     override fun getMovieListNowPlaying() {
-        movieListNowPlayingLiveData.value = Resource.Loading()
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val responseNowPlayingMovie = homepageRepository.getMovieListNowPlaying()
-
-                viewModelScope.launch(Dispatchers.Main) {
-                    movieListNowPlayingLiveData.value = Resource.Success(responseNowPlayingMovie)
-                }
-            } catch (e: Exception) {
-                viewModelScope.launch(Dispatchers.Main) {
-                    movieListNowPlayingLiveData.value = Resource.Error(null, e.message.orEmpty())
-                }
+        _getNowPlayingResult.value = Resource.Loading()
+        viewModelScope.launch {
+            homeRepository.getMovieListNowPlaying().collect {
+                _getPopularResult.value = Resource.Success(it.data)
             }
         }
     }
 
     override fun getMovieListPopular() {
-        movieListPopularLiveData.value = Resource.Loading()
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val responsePopular = homepageRepository.getMovieListPopular()
-                viewModelScope.launch(Dispatchers.Main) {
-                    movieListPopularLiveData.value = Resource.Success(responsePopular)
-                }
-            } catch (e: Exception) {
-                viewModelScope.launch(Dispatchers.Main) {
-                    movieListPopularLiveData.value = Resource.Error(null, e.message.orEmpty())
-                }
+        _getPopularResult.value = Resource.Loading()
+        viewModelScope.launch {
+            homeRepository.getMovieListPopular().collect {
+                _getPopularResult.value = Resource.Success(it.data)
             }
         }
     }
 
     override fun getMovieListUpComing() {
-        movieListUpcomingLiveData.value = Resource.Loading()
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val responseUpComing = homepageRepository.getMovieListUpComing()
-                viewModelScope.launch(Dispatchers.Main) {
-                    movieListUpcomingLiveData.value = Resource.Success(responseUpComing)
-                }
-            } catch (e: Exception) {
-                viewModelScope.launch(Dispatchers.Main) {
-                    movieListUpcomingLiveData.value = Resource.Error(null, e.message.orEmpty())
-                }
+        _getUpComingResult.value = Resource.Loading()
+        viewModelScope.launch {
+            homeRepository.getMovieListUpComing().collect {
+                _getUpComingResult.value = Resource.Success(it.data)
             }
         }
     }
 
     override fun getMovieListTopRated() {
-        movieListTopRatedLiveData.value = Resource.Loading()
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val responseTopRated = homepageRepository.getMovieListTopRated()
-                viewModelScope.launch(Dispatchers.Main) {
-                    movieListTopRatedLiveData.value = Resource.Success(responseTopRated)
-                }
-            } catch (e: Exception) {
-                viewModelScope.launch(Dispatchers.Main) {
-                    movieListTopRatedLiveData.value = Resource.Error(null, e.message.orEmpty())
-                }
+        _getTopRatedResult.value = Resource.Loading()
+        viewModelScope.launch {
+            homeRepository.getMovieListTopRated().collect {
+                _getTopRatedResult.value = Resource.Success(it.data)
             }
         }
     }
-
 }

@@ -6,7 +6,7 @@ import com.arifwidayana.challengechapter7.data.network.datasource.MovieDataSourc
 import com.arifwidayana.challengechapter7.data.repository.*
 import com.arifwidayana.challengechapter7.data.repository.RegisterRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesRepository
-import com.arifwidayana.challengechapter7.presentation.ui.homepage.home.HomeRepository
+import com.arifwidayana.challengechapter7.data.repository.HomeRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.user.ProfileUserRepository
 import dagger.Module
@@ -42,11 +42,16 @@ object RepositoryModule {
         return RegisterRepositoryImpl(localDataSource)
     }
 
-    @Singleton
     @Provides
-    fun provideMovieListRepository(movieDataSource: MovieDataSource, localDataSource: LocalDataSource): HomeRepository {
-        return HomeRepository(movieDataSource, localDataSource)
+    @Singleton
+    fun provideHomeRepository(
+        userPreferenceDataSource: UserPreferenceDataSource,
+        localDataSource: LocalDataSource,
+        movieDataSource: MovieDataSource
+    ): HomeRepository {
+        return HomeRepositoryImpl(userPreferenceDataSource, localDataSource, movieDataSource)
     }
+
     @Singleton
     @Provides
     fun provideMovieDetailsRepository(movieDataSource: MovieDataSource): DetailMoviesRepository {

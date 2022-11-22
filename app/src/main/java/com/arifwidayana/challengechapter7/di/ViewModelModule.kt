@@ -9,7 +9,7 @@ import com.arifwidayana.challengechapter7.data.repository.RegisterRepository
 import com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterViewModel
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailsmovie.DetailMoviesViewModel
-import com.arifwidayana.challengechapter7.presentation.ui.homepage.home.HomeRepository
+import com.arifwidayana.challengechapter7.data.repository.HomeRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.home.HomeViewModel
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileViewModel
