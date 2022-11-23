@@ -67,6 +67,10 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>(
         }
     }
 
+    override fun moveNav() {
+        findNavController().popBackStack()
+    }
+
     override fun moveNav(navUp: Int) {
         findNavController().navigate(navUp)
     }

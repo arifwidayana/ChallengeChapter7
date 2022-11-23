@@ -7,6 +7,7 @@ interface BaseContract {
     fun showLoading(isVisible: Boolean)
     fun showMessageToast(isEnabled: Boolean, message: String? = null)
     fun showMessageSnackBar(isEnabled: Boolean, message: String? = null)
+    fun moveNav()
     fun moveNav(navUp: Int)
     fun moveNav(direction: NavDirections)
 }
