@@ -5,12 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.repository.OnBoardingRepository
 import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltAndroidApp
+@HiltViewModel
 class OnBoardingViewModel @Inject constructor(
     private val onBoardingRepository: OnBoardingRepository
 ): OnBoardingContract, ViewModel() {
