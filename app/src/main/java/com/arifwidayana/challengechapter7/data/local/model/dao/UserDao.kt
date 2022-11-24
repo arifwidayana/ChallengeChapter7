@@ -15,9 +15,17 @@ interface UserDao {
     @Query("SELECT * FROM user_table WHERE username_user = :username")
     fun getUser(username: String?): Flow<UserEntity>
 
-    @Update
-    suspend fun updateProfileUser(user: UserEntity)
+    @Query("UPDATE user_table SET image_profile = :imageProfile WHERE username_user = :username")
+    suspend fun updateImageProfile(imageProfile: String?, username: String?)
 
-//    @Delete
-//    suspend fun deleteUser(user: UserEntity)
+    @Query("UPDATE user_table " +
+            "SET name_user = :name, email_user = :email, age = :age, phone_number_user = :phoneNumber " +
+            "WHERE username_user = :username")
+    suspend fun updateProfileUser(
+        username: String?,
+        name: String?,
+        email: String?,
+        age: Int?,
+        phoneNumber: String?
+    )
 }
