@@ -9,6 +9,7 @@ import com.arifwidayana.challengechapter7.data.repository.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,6 +24,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             loginRepository.loginUser(loginRequest).collect {
                 if (it.data?.username == loginRequest.username && it.data?.password == loginRequest.password) {
+                    loginRepository.setUsername(loginRequest.username.toString()).first()
                     _loginUserResult.value = Resource.Success(it.data)
                 } else {
                     _loginUserResult.value = Resource.Error(message = "Username and password is wrong")

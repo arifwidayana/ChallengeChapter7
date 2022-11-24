@@ -32,8 +32,11 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideLoginRepository(localDataSource: LocalDataSource): LoginRepository {
-        return LoginRepositoryImpl(localDataSource)
+    fun provideLoginRepository(
+        userPreferenceDataSource: UserPreferenceDataSource,
+        localDataSource: LocalDataSource
+    ): LoginRepository {
+        return LoginRepositoryImpl(userPreferenceDataSource, localDataSource)
     }
 
     @Provides
