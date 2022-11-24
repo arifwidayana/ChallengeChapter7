@@ -10,7 +10,7 @@ data class UserEntity(
     var id: Int?,
     @ColumnInfo(name = "name_user")
     var name: String?,
-    @ColumnInfo(name = "profile_user")
+    @ColumnInfo(name = "image_profile")
     var imageProfile: String?,
     @ColumnInfo(name = "email_user")
     var email: String?,
