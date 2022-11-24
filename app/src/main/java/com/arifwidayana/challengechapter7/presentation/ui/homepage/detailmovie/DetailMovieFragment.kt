@@ -7,16 +7,16 @@ import androidx.navigation.fragment.navArgs
 import com.arifwidayana.challengechapter7.base.arch.BaseFragment
 import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.network.model.response.movie.details.DetailMovieResponse
-import com.arifwidayana.challengechapter7.databinding.FragmentDetailMoviesBinding
+import com.arifwidayana.challengechapter7.databinding.FragmentDetailMovieBinding
 import com.arifwidayana.challengechapter7.utils.Constant
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailMovieFragment : BaseFragment<FragmentDetailMoviesBinding, DetailMovieViewModel>(
-    FragmentDetailMoviesBinding::inflate
+class DetailMovieFragment : BaseFragment<FragmentDetailMovieBinding, DetailMovieViewModel>(
+    FragmentDetailMovieBinding::inflate
 ) {
-    private val args by navArgs<Detaimo>()
+    private val args by navArgs<DetailMovieFragmentArgs>()
 
     override fun initView() {
         onView()
