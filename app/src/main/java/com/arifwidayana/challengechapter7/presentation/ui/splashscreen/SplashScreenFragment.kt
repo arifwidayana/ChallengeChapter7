@@ -1,10 +1,7 @@
 package com.arifwidayana.challengechapter7.presentation.ui.splashscreen
 
 import android.annotation.SuppressLint
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.arifwidayana.challengechapter7.R
 import com.arifwidayana.challengechapter7.base.arch.BaseFragment
 import com.arifwidayana.challengechapter7.base.model.Resource
@@ -31,7 +28,7 @@ class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding, SplashScr
                 viewModelInstance.getBoardingResult.collect {
                     when (it is Resource.Success) {
                         !true -> {
-                            moveNavFragment(R.id.action_splashScreen_to_onBoarding)
+                            moveNav(R.id.action_splashScreen_to_onBoarding)
                         }
                         else -> {
                             viewModelInstance.getUsername()
@@ -44,19 +41,13 @@ class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding, SplashScr
                 viewModelInstance.getUsernameResult.collect {
                     if(it is Resource.Success) {
                         if(it.data == Constant.USERNAME_PREF) {
-                            moveNavFragment(R.id.action_splashScreen_to_loginFragment)
+                            moveNav(R.id.action_splashScreen_to_loginFragment)
                         } else {
-                            moveNavFragment(R.id.action_splashScreen_to_homeFragment)
+                            moveNav(R.id.action_splashScreen_to_homeFragment)
                         }
                     }
                 }
             }
         }
-    }
-
-    private fun moveNavFragment(navUp: Int) {
-        Handler(Looper.getMainLooper()).postDelayed({
-            findNavController().navigate(navUp)
-        }, 3000)
     }
 }
