@@ -5,12 +5,12 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import com.arifwidayana.challengechapter7.R
 import com.arifwidayana.challengechapter7.base.arch.BaseFragment
+import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
 import com.arifwidayana.challengechapter7.databinding.FragmentProfileUserBinding
-import com.arifwidayana.challengechapter7.utils.Constant
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,25 +19,20 @@ import java.io.File
 @AndroidEntryPoint
 class ProfileUserFragment : BaseFragment<FragmentProfileUserBinding, ProfileUserViewModel>(
     FragmentProfileUserBinding::inflate
-), ProfileUserContract.View {
-    private lateinit var shared: SharedHelper
-
+) {
     override fun initView() {
-        shared = SharedHelper(requireContext())
-        getData()
+        onView()
         onClick()
     }
 
-    override fun getData() {
-        getViewModel().apply {
-            getUser(shared.getString(Constant.USERNAME_PREF).toString())
-        }
+    private fun onView() {
+        viewModelInstance.getUser()
     }
 
     private fun onClick() {
-        getViewBinding().apply {
+        binding.apply {
             ivBackHome.setOnClickListener {
-                findNavController().navigate(R.id.action_profileUserFragment_to_homeFragment)
+                moveNav(R.id.action_profileUserFragment_to_homeFragment)
             }
 
             cvProfile.setOnClickListener {
@@ -45,33 +40,58 @@ class ProfileUserFragment : BaseFragment<FragmentProfileUserBinding, ProfileUser
             }
 
             btnEdit.setOnClickListener {
-                findNavController().navigate(R.id.action_profileUserFragment_to_editProfileFragment)
+                moveNav(R.id.action_profileUserFragment_to_editProfileFragment)
             }
 
             btnLogout.setOnClickListener {
-                shared.clear()
-                Toast.makeText(requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_profileUserFragment_to_loginFragment)
+                viewModelInstance.logoutUser()
             }
         }
     }
 
     override fun observeData() {
-        getViewModel().apply {
-            with(getViewBinding()){
-                getUserResult().observe(viewLifecycleOwner) {
-                    tvGetUsername.text = it.username
-                    Glide.with(root)
-                        .load(it.profile)
-                        .into(ivProfile)
-                    tvGetName.text = it.name
-                    tvGetEmail.text = it.email
-                    tvGetAge.text = it.age.toString()
-                    tvGetPhone.text = it.phone_number
+        lifecycleScope.apply {
+            launchWhenStarted {
+                viewModelInstance.getUserResult.collect {
+                    if (it is Resource.Success) {
+                        setProfileUser(it.data)
+                    }
+                }
+            }
+
+            launchWhenStarted {
+                viewModelInstance.apply {
+                    updateProfileImageResult.collect {
+                        if (it is Resource.Success) {
+                            getUser()
+                        }
+                    }
+                }
+            }
+
+            launchWhenStarted {
+                viewModelInstance.logoutUserResult.collect {
+                    if (it is Resource.Success) {
+                        moveNav(R.id.action_profileUserFragment_to_loginFragment)
+                    }
                 }
             }
         }
+    }
 
+    private fun setProfileUser(data: UserEntity?) {
+        binding.apply {
+            data?.let {
+                tvGetUsername.text = it.username
+                Glide.with(root)
+                    .load(it.imageProfile)
+                    .into(ivProfile)
+                tvGetName.text = it.name
+                tvGetEmail.text = it.email
+                tvGetAge.text = it.age.toString()
+                tvGetPhone.text = it.phoneNumber
+            }
+        }
     }
 
     private fun openImagePicker() {
@@ -94,33 +114,16 @@ class ProfileUserFragment : BaseFragment<FragmentProfileUserBinding, ProfileUser
                     val fileUri = data?.data
                     fileUri?.let { saveImage(it) }
                 }
-
                 ImagePicker.RESULT_ERROR -> {
-                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT)
+                        .show()
                 }
-
             }
         }
 
     private fun saveImage(uri: Uri) {
-        getViewModel().apply {
-            with(getViewBinding()) {
-                ivProfile.setImageURI(uri)
-                getUserResult().observe(viewLifecycleOwner){
-                    val newImageUser = UserEntity(
-                        it.id,
-                        it.name,
-                        uri.toString(),
-                        it.email,
-                        it.age,
-                        it.phone_number,
-                        it.username,
-                        it.password
-                    )
-                    updateUser(newImageUser)
-                }
-            }
+        binding.apply {
+            viewModelInstance.updateProfileImage(uri.toString())
         }
     }
-
 }

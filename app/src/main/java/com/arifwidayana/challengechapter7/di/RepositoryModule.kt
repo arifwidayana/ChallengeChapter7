@@ -7,7 +7,7 @@ import com.arifwidayana.challengechapter7.data.repository.*
 import com.arifwidayana.challengechapter7.data.repository.RegisterRepository
 import com.arifwidayana.challengechapter7.data.repository.DetailMovieRepository
 import com.arifwidayana.challengechapter7.data.repository.HomeRepository
-import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileRepository
+import com.arifwidayana.challengechapter7.data.repository.EditProfileRepository
 import com.arifwidayana.challengechapter7.data.repository.ProfileUserRepository
 import dagger.Module
 import dagger.Provides
@@ -58,14 +58,21 @@ object RepositoryModule {
         return DetailMovieRepositoryImpl(movieDataSource)
     }
 
-    @Singleton
     @Provides
-    fun provideProfileUserRepository(localDataSource: LocalDataSource): ProfileUserRepository {
-        return ProfileUserRepository(localDataSource)
+    @Singleton
+    fun provideProfileUserRepository(
+        userPreferenceDataSource: UserPreferenceDataSource,
+        localDataSource: LocalDataSource
+    ): ProfileUserRepository {
+        return ProfileUserRepositoryImpl(userPreferenceDataSource, localDataSource)
     }
-    @Singleton
+
     @Provides
-    fun provideEditProfileRepository(localDataSource: LocalDataSource): EditProfileRepository {
-        return EditProfileRepository(localDataSource)
+    @Singleton
+    fun provideEditProfileRepository(
+        userPreferenceDataSource: UserPreferenceDataSource,
+        localDataSource: LocalDataSource
+    ): EditProfileRepository {
+        return EditProfileRepositoryImpl(userPreferenceDataSource, localDataSource)
     }
 }

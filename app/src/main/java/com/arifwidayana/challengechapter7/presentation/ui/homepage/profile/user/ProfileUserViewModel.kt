@@ -1,34 +1,58 @@
 package com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.user
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
+import com.arifwidayana.challengechapter7.data.local.model.request.ProfileUserRequest
+import com.arifwidayana.challengechapter7.data.repository.ProfileUserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileUserViewModel @Inject constructor(
     private val profileUserRepository: ProfileUserRepository
-): BaseViewModellmpl(), ProfileUserContract.ViewModel {
-    private val getUserData = MutableLiveData<UserEntity>()
+): ProfileUserContract, ViewModel() {
+    private val _getUserResult = MutableStateFlow<Resource<UserEntity>>(Resource.Empty())
+    private val _updateProfileImageResult = MutableStateFlow<Resource<Unit>>(Resource.Empty())
+    private val _logoutUserResult = MutableStateFlow<Resource<Unit>>(Resource.Empty())
+    override val getUserResult: StateFlow<Resource<UserEntity>> = _getUserResult
+    override val updateProfileImageResult: StateFlow<Resource<Unit>> = _updateProfileImageResult
+    override val logoutUserResult: StateFlow<Resource<Unit>> = _logoutUserResult
 
-    override fun getUserResult(): LiveData<UserEntity> = getUserData
-
-    override fun getUser(username: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val responseDataUser = profileUserRepository.getUser(username)
-            viewModelScope.launch(Dispatchers.Main) {
-                getUserData.value = responseDataUser
+    override fun getUser() {
+        viewModelScope.launch {
+            profileUserRepository.getUsername().collect {
+                profileUserRepository.getUser(it.data.toString()).collect { source ->
+                    _getUserResult.value = Resource.Success(source.data)
+                }
             }
         }
     }
 
-    override fun updateUser(userEntity: UserEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            profileUserRepository.postUpdateUser(userEntity)
+    override fun updateProfileImage(imageProfile: String) {
+        viewModelScope.launch {
+            profileUserRepository.getUsername().collect {
+                profileUserRepository.updateImageProfile(
+                    ProfileUserRequest(
+                        imageProfile = imageProfile,
+                        usernameUser = it.data.toString()
+                    )
+                ).collect { source ->
+                    _updateProfileImageResult.value = Resource.Success(source.data)
+                }
+            }
+        }
+    }
+
+    override fun logoutUser() {
+        viewModelScope.launch {
+            profileUserRepository.logoutUser().collect {
+                _logoutUserResult.value = Resource.Success()
+            }
         }
     }
 }

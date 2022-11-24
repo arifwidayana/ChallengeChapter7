@@ -11,7 +11,7 @@ import com.arifwidayana.challengechapter7.data.repository.DetailMovieRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailmovie.DetailMovieViewModel
 import com.arifwidayana.challengechapter7.data.repository.HomeRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.home.HomeViewModel
-import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileRepository
+import com.arifwidayana.challengechapter7.data.repository.EditProfileRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit.EditProfileViewModel
 import com.arifwidayana.challengechapter7.data.repository.ProfileUserRepository
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.user.ProfileUserViewModel
@@ -76,14 +76,15 @@ object ViewModelModule {
 
     @Provides
     @FragmentScoped
-    fun profileUserViewModel(profileUserRepository: ProfileUserRepository): ProfileUserViewModel {
+    fun provideProfileUserViewModel(profileUserRepository: ProfileUserRepository): ProfileUserViewModel {
         return BaseGenericViewModel(ProfileUserViewModel(profileUserRepository)).create(
             ProfileUserViewModel::class.java
         )
     }
+
     @Provides
     @FragmentScoped
-    fun editProfileUser(editProfileRepository: EditProfileRepository): EditProfileViewModel {
+    fun provideEditProfileUser(editProfileRepository: EditProfileRepository): EditProfileViewModel {
         return BaseGenericViewModel(EditProfileViewModel(editProfileRepository)).create(
             EditProfileViewModel::class.java
         )
