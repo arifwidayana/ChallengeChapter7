@@ -6,7 +6,9 @@ import com.arifwidayana.challengechapter7.base.arch.BaseFragment
 import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.databinding.FragmentThirdScreenBinding
 import com.arifwidayana.challengechapter7.presentation.ui.boarding.OnBoardingViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ThirdScreenFragment : BaseFragment<FragmentThirdScreenBinding, OnBoardingViewModel>(
     FragmentThirdScreenBinding::inflate
 ) {
