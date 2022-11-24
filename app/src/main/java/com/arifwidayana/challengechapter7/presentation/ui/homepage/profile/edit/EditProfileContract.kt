@@ -1,23 +1,13 @@
 package com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit
 
-import androidx.lifecycle.LiveData
-import com.arifwidayana.challengechapter7.base.arch.BaseContract
+import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
+import com.arifwidayana.challengechapter7.data.local.model.request.EditProfileRequest
+import kotlinx.coroutines.flow.StateFlow
 
 interface EditProfileContract {
-    interface View: BaseContract.BaseView {
-        fun getData()
-        fun checkFormValidation(): Boolean
-    }
-
-    interface ViewModel: BaseContract.BaseViewModel {
-        fun getUserResult(): LiveData<UserEntity>
-        fun getUser(username: String)
-        fun updateUser(userEntity: UserEntity)
-    }
-
-    interface Repository: BaseContract.BaseRepository {
-        suspend fun getUser(username: String): UserEntity
-        suspend fun postUpdateUser(userEntity: UserEntity)
-    }
+    val getUserResult: StateFlow<Resource<UserEntity>>
+    val updateProfileUserResult: StateFlow<Resource<Unit>>
+    fun getUser()
+    fun updateProfileUser(editProfileRequest: EditProfileRequest)
 }

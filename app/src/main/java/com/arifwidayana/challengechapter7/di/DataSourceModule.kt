@@ -13,6 +13,7 @@ import com.arifwidayana.challengechapter7.data.network.service.MovieService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -27,7 +28,7 @@ object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideUserPreferenceDataSource(context: Context): UserPreferenceDataSource {
+    fun provideUserPreferenceDataSource(@ApplicationContext context: Context): UserPreferenceDataSource {
         return UserPreferenceDataSourceImpl(context)
     }
 

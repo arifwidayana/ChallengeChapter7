@@ -1,40 +1,46 @@
 package com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
+import com.arifwidayana.challengechapter7.data.local.model.request.EditProfileRequest
+import com.arifwidayana.challengechapter7.data.repository.EditProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileViewModel @Inject constructor(
     private val editProfileRepository: EditProfileRepository
-): BaseViewModellmpl(), EditProfileContract.ViewModel{
-    private val getUserData = MutableLiveData<UserEntity>()
+) : EditProfileContract, ViewModel() {
+    private val _getUserResult = MutableStateFlow<Resource<UserEntity>>(Resource.Empty())
+    private val _updateProfileUserResult = MutableStateFlow<Resource<Unit>>(Resource.Empty())
+    override val getUserResult: StateFlow<Resource<UserEntity>> = _getUserResult
+    override val updateProfileUserResult: StateFlow<Resource<Unit>> = _updateProfileUserResult
 
-    override fun getUserResult(): LiveData<UserEntity> = getUserData
-
-    override fun getUser(username: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val responseDataUser = editProfileRepository.getUser(username)
-            try {
-                viewModelScope.launch(Dispatchers.Main) {
-                    getUserData.value = responseDataUser
-                }
-            } catch(e: Exception) {
-                viewModelScope.launch(Dispatchers.Main) {
-//                    Toast.makeText(, "", Toast.LENGTH_SHORT).show()
+    override fun getUser() {
+        viewModelScope.launch {
+            editProfileRepository.getUsername().collect {
+                editProfileRepository.getUser(it.data.toString()).collect { source ->
+                    _getUserResult.value = Resource.Success(source.data)
                 }
             }
         }
     }
 
-    override fun updateUser(userEntity: UserEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
-            editProfileRepository.postUpdateUser(userEntity)
+    override fun updateProfileUser(editProfileRequest: EditProfileRequest) {
+        viewModelScope.launch {
+            editProfileRepository.getUsername().collect {
+                editProfileRepository.updateProfileUser(
+                    username = it.data.toString(),
+                    editProfileRequest = editProfileRequest
+                ).collect { source ->
+                    _updateProfileUserResult.value = Resource.Success(source.data)
+                }
+            }
         }
     }
 }

@@ -1,62 +1,87 @@
 package com.arifwidayana.challengechapter7.presentation.ui.homepage.profile.edit
 
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import com.arifwidayana.challengechapter7.R
 import com.arifwidayana.challengechapter7.base.arch.BaseFragment
+import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
+import com.arifwidayana.challengechapter7.data.local.model.request.EditProfileRequest
 import com.arifwidayana.challengechapter7.databinding.FragmentEditProfileBinding
-import com.arifwidayana.challengechapter7.utils.Constant
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfileViewModel>(
     FragmentEditProfileBinding::inflate
-), EditProfileContract.View {
-    private lateinit var shared: SharedHelper
-
+) {
     override fun initView() {
-        shared = SharedHelper(requireContext())
-        getData()
+        onView()
         onClick()
     }
 
-    override fun getData() {
-        getViewModel().apply {
-            getUser(shared.getString(Constant.USERNAME_PREF).toString())
-        }
+    private fun onView() {
+        viewModelInstance.getUser()
     }
 
     private fun onClick() {
-        getViewBinding().apply {
+        binding.apply {
             ivBackProfile.setOnClickListener {
-                findNavController().navigate(R.id.action_editProfileFragment_to_profileUserFragment)
+                moveNav(R.id.action_editProfileFragment_to_profileUserFragment)
             }
 
             btnSave.setOnClickListener {
                 saveDataProfile()
             }
-
-            btnDelete.setOnClickListener {
-                deleteDataUser()
-            }
         }
     }
 
     override fun observeData() {
-        getViewModel().apply {
-            with(getViewBinding()) {
-                getUserResult().observe(viewLifecycleOwner) {
-                    etEditName.setText(it.name)
-                    etEditEmail.setText(it.email)
-                    etEditAge.setText(it.age.toString())
-                    etEditPhoneNumber.setText(it.phone_number)
+        lifecycleScope.apply {
+            launchWhenStarted {
+                viewModelInstance.getUserResult.collect {
+                    if (it is Resource.Success) {
+                        setDataEditProfile(it.data)
+                    }
+                }
+            }
+
+            launchWhenStarted {
+                viewModelInstance.updateProfileUserResult.collect {
+                    if (it is Resource.Success) {
+                        moveNav(R.id.action_editProfileFragment_to_profileUserFragment)
+                    }
                 }
             }
         }
     }
 
-    override fun checkFormValidation(): Boolean {
-        getViewBinding().apply {
+    private fun setDataEditProfile(data: UserEntity?) {
+        binding.apply {
+            data?.let {
+                etEditName.setText(it.name)
+                etEditEmail.setText(it.email)
+                etEditAge.setText(it.age.toString())
+                etEditPhoneNumber.setText(it.phoneNumber)
+            }
+        }
+    }
+
+    private fun saveDataProfile() {
+        binding.apply {
+            if (checkFormValidation()) {
+                viewModelInstance.updateProfileUser(
+                    EditProfileRequest(
+                        name = etEditName.text.toString(),
+                        email = etEditEmail.text.toString(),
+                        age = etEditAge.text.toString().toInt(),
+                        phoneNumber = etEditPhoneNumber.text.toString()
+                    )
+                )
+            }
+        }
+    }
+
+    private fun checkFormValidation(): Boolean {
+        binding.apply {
             var isValid = true
             when {
                 etEditName.text.toString().isEmpty() -> {
@@ -85,33 +110,4 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding, EditProfile
             return isValid
         }
     }
-
-    private fun saveDataProfile() {
-        getViewModel().apply {
-            with(getViewBinding()) {
-                if (checkFormValidation()) {
-                    getUserResult().observe(viewLifecycleOwner) {
-                        val newDataUser = UserEntity(
-                            id = it.id,
-                            name = etEditName.text.toString(),
-                            profile = it.profile,
-                            email = etEditEmail.text.toString(),
-                            age = etEditAge.text.toString().toInt(),
-                            phone_number = etEditPhoneNumber.text.toString(),
-                            username = it.username,
-                            password = it.password
-                        )
-                        updateUser(newDataUser)
-                    }
-                }
-            }
-        }
-        findNavController().navigate(R.id.action_editProfileFragment_to_profileUserFragment)
-    }
-
-    private fun deleteDataUser() {
-        shared.clear()
-
-    }
-
 }
