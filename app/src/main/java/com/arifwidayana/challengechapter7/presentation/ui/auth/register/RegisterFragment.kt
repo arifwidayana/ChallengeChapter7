@@ -32,7 +32,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding, RegisterViewModel
             viewModelInstance.registerUserResult.collect {
                 if (it is Resource.Success) {
                     showMessageToast(true, it.message)
-                    moveNav(R.id.action_loginFragment_to_homeFragment)
+                    moveNav(R.id.action_registerFragment_to_loginFragment)
                 }
                 else if (it is Resource.Error) {
                     showMessageSnackBar(true, it.message)
