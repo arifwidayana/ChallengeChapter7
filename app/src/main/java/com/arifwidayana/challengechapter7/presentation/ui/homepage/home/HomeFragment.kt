@@ -130,7 +130,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     private fun setDataNowPlayingAdapter(results: List<MovieResponse.Result?>?) {
         binding.apply {
             val adapter = HomeAdapter {
-                val parcel = HomeFragmentDirections.actionHomeFragmentToDetailMoviesFragment()
+                val parcel = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment()
                 it.id?.let { data -> parcel.id = data }
                 moveNav(parcel)
             }
@@ -142,7 +142,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     private fun setDataPopularAdapter(results: List<MovieResponse.Result?>?) {
         binding.apply {
             val adapter = HomeAdapter {
-                val parcel = HomeFragmentDirections.actionHomeFragmentToDetailMoviesFragment()
+                val parcel = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment()
                 it.id?.let { data -> parcel.id = data }
                 moveNav(parcel)
             }
@@ -154,7 +154,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     private fun setDataUpComingAdapter(results: List<MovieResponse.Result?>?) {
         binding.apply {
             val adapter = HomeAdapter {
-                val parcel = HomeFragmentDirections.actionHomeFragmentToDetailMoviesFragment()
+                val parcel = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment()
                 it.id?.let { data -> parcel.id = data }
                 moveNav(parcel)
             }
@@ -166,7 +166,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     private fun setDataTopRatedAdapter(results: List<MovieResponse.Result?>?) {
         binding.apply {
             val adapter = HomeAdapter {
-                val parcel = HomeFragmentDirections.actionHomeFragmentToDetailMoviesFragment()
+                val parcel = HomeFragmentDirections.actionHomeFragmentToDetailMovieFragment()
                 it.id?.let { data -> parcel.id = data }
                 moveNav(parcel)
             }
