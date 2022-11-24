@@ -26,12 +26,10 @@ class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding, SplashScr
         lifecycleScope.apply {
             launchWhenStarted {
                 viewModelInstance.getBoardingResult.collect {
-                    when (it is Resource.Success) {
-                        !true -> {
-                            moveNav(R.id.action_splashScreen_to_onBoarding)
-                        }
-                        else -> {
-                            viewModelInstance.getUsername()
+                    if (it is Resource.Success) {
+                        when (it.data) {
+                            !true -> moveNav(R.id.action_splashScreen_to_onBoarding)
+                            else -> viewModelInstance.getUsername()
                         }
                     }
                 }
@@ -39,11 +37,14 @@ class SplashScreenFragment : BaseFragment<FragmentSplashScreenBinding, SplashScr
 
             launchWhenStarted {
                 viewModelInstance.getUsernameResult.collect {
-                    if(it is Resource.Success) {
-                        if(it.data == Constant.USERNAME_PREF) {
-                            moveNav(R.id.action_splashScreen_to_loginFragment)
-                        } else {
-                            moveNav(R.id.action_splashScreen_to_homeFragment)
+                    if (it is Resource.Success) {
+                        when (it.data) {
+                            Constant.USERNAME_PREF -> {
+                                moveNav(R.id.action_splashScreen_to_loginFragment)
+                            }
+                            else -> {
+                                moveNav(R.id.action_splashScreen_to_homeFragment)
+                            }
                         }
                     }
                 }
