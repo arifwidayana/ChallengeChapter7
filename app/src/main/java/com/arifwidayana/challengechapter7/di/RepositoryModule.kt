@@ -57,8 +57,12 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMovieDetailsRepository(movieDataSource: MovieDataSource): DetailMovieRepository {
-        return DetailMovieRepositoryImpl(movieDataSource)
+    fun provideMovieDetailsRepository(
+        userPreferenceDataSource: UserPreferenceDataSource,
+        localDataSource: LocalDataSource,
+        movieDataSource: MovieDataSource,
+    ): DetailMovieRepository {
+        return DetailMovieRepositoryImpl(userPreferenceDataSource, localDataSource, movieDataSource)
     }
 
     @Provides

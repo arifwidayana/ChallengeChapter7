@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.arifwidayana.challengechapter7.R
 import com.arifwidayana.challengechapter7.base.arch.BaseFragment
 import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.network.model.response.movie.details.DetailMovieResponse
@@ -26,6 +27,7 @@ class DetailMovieFragment : BaseFragment<FragmentDetailMovieBinding, DetailMovie
     private fun onView() {
         viewModelInstance.apply {
             getMovieDetail(args.id)
+            favMovie()
         }
     }
 
@@ -34,7 +36,14 @@ class DetailMovieFragment : BaseFragment<FragmentDetailMovieBinding, DetailMovie
             ivBack.setOnClickListener {
                 moveNav()
             }
+            ibFavorite.setOnClickListener {
+                viewModelInstance.stateFavorite(args.id)
+            }
         }
+    }
+
+    private fun favMovie() {
+        viewModelInstance.getFavoriteById(args.id)
     }
 
     override fun showLoading(isVisible: Boolean) {
@@ -46,20 +55,60 @@ class DetailMovieFragment : BaseFragment<FragmentDetailMovieBinding, DetailMovie
     }
 
     override fun observeData() {
-        lifecycleScope.launchWhenStarted {
-            viewModelInstance.getMovieDetailResult.collect {
-                when (it) {
-                    is Resource.Empty -> { }
-                    is Resource.Loading -> {
-                        showLoading(true)
+        lifecycleScope.apply {
+            launchWhenStarted {
+                viewModelInstance.getMovieDetailResult.collect {
+                    when (it) {
+                        is Resource.Empty -> {}
+                        is Resource.Loading -> {
+                            showLoading(true)
+                        }
+                        is Resource.Success -> {
+                            showLoading(false)
+                            setContentData(it.data)
+                        }
+                        is Resource.Error -> {}
                     }
-                    is Resource.Success -> {
-                        showLoading(false)
-                        setContentData(it.data)
-                    }
-                    is Resource.Error -> { }
                 }
             }
+            launchWhenStarted {
+                viewModelInstance.getFavoriteByIdResult.collect {
+                    if (it is Resource.Success) {
+                        stateFavorite(it.data)
+                    }
+                }
+            }
+
+            launchWhenStarted {
+                viewModelInstance.insertFavoriteResult.collect {
+                    if (it is Resource.Success) {
+                        showMessageSnackBar(true, it.message)
+                        favMovie()
+                    }
+                }
+            }
+
+            launchWhenStarted {
+                viewModelInstance.deleteFavoriteByIdResult.collect {
+                    if (it is Resource.Success) {
+                        showMessageSnackBar(true, it.message)
+                        favMovie()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun stateFavorite(data: Boolean?) {
+        when (data) {
+            true -> setStateFav(R.drawable.ic_favorite_saved)
+            else -> setStateFav(R.drawable.ic_favorite_not_saved)
+        }
+    }
+
+    private fun setStateFav(icSelectorFav: Int) {
+        binding.apply {
+            ibFavorite.setImageResource(icSelectorFav)
         }
     }
 

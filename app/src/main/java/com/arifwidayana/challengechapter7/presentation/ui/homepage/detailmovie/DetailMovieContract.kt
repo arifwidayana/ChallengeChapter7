@@ -6,5 +6,10 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface DetailMovieContract {
     val getMovieDetailResult: StateFlow<Resource<DetailMovieResponse>>
+    val insertFavoriteResult: StateFlow<Resource<Unit>>
+    val getFavoriteByIdResult: StateFlow<Resource<Boolean>>
+    val deleteFavoriteByIdResult: StateFlow<Resource<Unit>>
     fun getMovieDetail(idMovie: Int)
+    fun getFavoriteById(idMovie: Int)
+    fun stateFavorite(idMovie: Int)
 }

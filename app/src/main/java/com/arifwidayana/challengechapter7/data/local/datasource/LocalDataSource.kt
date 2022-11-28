@@ -4,10 +4,7 @@ import com.arifwidayana.challengechapter7.data.local.model.dao.FavoriteDao
 import com.arifwidayana.challengechapter7.data.local.model.dao.UserDao
 import com.arifwidayana.challengechapter7.data.local.model.entity.FavoriteEntity
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
-import com.arifwidayana.challengechapter7.data.local.model.request.EditProfileRequest
-import com.arifwidayana.challengechapter7.data.local.model.request.LoginRequest
-import com.arifwidayana.challengechapter7.data.local.model.request.ProfileUserRequest
-import com.arifwidayana.challengechapter7.data.local.model.request.RegisterRequest
+import com.arifwidayana.challengechapter7.data.local.model.request.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -17,8 +14,9 @@ interface LocalDataSource {
     suspend fun getUser(username: String): Flow<UserEntity>
     suspend fun updateImageProfile(profileUserRequest: ProfileUserRequest)
     suspend fun updateProfileUser(username: String, editProfileRequest: EditProfileRequest)
-    suspend fun insertMovie(favoriteEntity: FavoriteEntity)
+    suspend fun insertMovie(favoriteRequest: FavoriteRequest)
     suspend fun getFavoriteMovie(username: String): Flow<List<FavoriteEntity>>
+    suspend fun getFavoriteById(movieId: Int): Flow<FavoriteEntity>
     suspend fun deleteFavorite(movieId: Int)
 }
 
@@ -71,15 +69,25 @@ class LocalDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun insertMovie(favoriteEntity: FavoriteEntity) {
-        return favoriteDao.insertMovie(favoriteEntity)
+    override suspend fun insertMovie(favoriteRequest: FavoriteRequest) {
+        return favoriteDao.insertMovie(
+            FavoriteEntity(
+                idMovie = favoriteRequest.idMovie,
+                username = favoriteRequest.username,
+                isFavorite = favoriteRequest.isFavorite
+            )
+        )
     }
 
     override suspend fun getFavoriteMovie(username: String): Flow<List<FavoriteEntity>> {
         return favoriteDao.getFavorite(username)
     }
 
+    override suspend fun getFavoriteById(movieId: Int): Flow<FavoriteEntity> {
+        return favoriteDao.getFavoriteById(movieId)
+    }
+
     override suspend fun deleteFavorite(movieId: Int) {
-        return favoriteDao.deleteFavorite(movieId)
+        return favoriteDao.deleteFavoriteById(movieId)
     }
 }
