@@ -48,14 +48,22 @@ class DetailMovieViewModel @Inject constructor(
                 when (it.data?.isFavorite) {
                     null -> {
                         detailMovieRepository.getUsername().collect { source ->
-                            detailMovieRepository.insertFavoriteMovie(
-                                FavoriteRequest(
-                                    idMovie = idMovie,
-                                    username = source.data.toString(),
-                                    isFavorite = true
-                                )
-                            ).collect {
-                                _insertFavoriteResult.value = Resource.Success(message = "Movie saved to collection")
+                            detailMovieRepository.getMovieDetail(idMovie).collect { source1 ->
+                                source1.data?.let { result ->
+                                    detailMovieRepository.insertFavoriteMovie(
+                                        FavoriteRequest(
+                                            idMovie = idMovie,
+                                            username = source.data.toString(),
+                                            poster = result.posterPath,
+                                            title = result.title.toString(),
+                                            overview = result.overview.toString(),
+                                            rating = result.voteAverage ?: 0.0,
+                                            isFavorite = true
+                                        )
+                                    ).collect {
+                                        _insertFavoriteResult.value = Resource.Success(message = "Movie saved to collection")
+                                    }
+                                }
                             }
                         }
                     }
