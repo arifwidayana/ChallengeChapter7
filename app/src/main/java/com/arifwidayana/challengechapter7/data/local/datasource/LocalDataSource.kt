@@ -74,6 +74,10 @@ class LocalDataSourceImpl @Inject constructor(
             FavoriteEntity(
                 idMovie = favoriteRequest.idMovie,
                 username = favoriteRequest.username,
+                poster = favoriteRequest.poster,
+                title = favoriteRequest.title,
+                overview = favoriteRequest.overview,
+                rating = favoriteRequest.rating,
                 isFavorite = favoriteRequest.isFavorite
             )
         )

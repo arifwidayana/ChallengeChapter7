@@ -67,6 +67,15 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideFavoriteRepository(
+        userPreferenceDataSource: UserPreferenceDataSource,
+        localDataSource: LocalDataSource
+    ): FavoriteRepository {
+        return FavoriteRepositoryImpl(userPreferenceDataSource, localDataSource)
+    }
+
+    @Provides
+    @Singleton
     fun provideProfileUserRepository(
         userPreferenceDataSource: UserPreferenceDataSource,
         localDataSource: LocalDataSource

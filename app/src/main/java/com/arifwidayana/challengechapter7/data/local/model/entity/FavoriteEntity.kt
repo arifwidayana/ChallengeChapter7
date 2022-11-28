@@ -8,5 +8,9 @@ data class FavoriteEntity(
     @PrimaryKey
     var idMovie: Int,
     var username: String,
+    var poster: String,
+    var title: String,
+    var overview: String,
+    var rating: Double,
     var isFavorite: Boolean
 )

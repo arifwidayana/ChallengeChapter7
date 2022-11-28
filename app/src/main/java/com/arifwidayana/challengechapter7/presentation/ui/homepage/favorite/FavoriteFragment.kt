@@ -1,48 +1,54 @@
 package com.arifwidayana.challengechapter7.presentation.ui.homepage.favorite
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.arifwidayana.challengechapter7.R
+import androidx.lifecycle.lifecycleScope
+import com.arifwidayana.challengechapter7.base.arch.BaseFragment
+import com.arifwidayana.challengechapter7.base.model.Resource
+import com.arifwidayana.challengechapter7.data.local.model.entity.FavoriteEntity
 import com.arifwidayana.challengechapter7.databinding.FragmentFavoriteBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class FavoriteFragment : Fragment() {
-    private var bind : FragmentFavoriteBinding? = null
-    private val binding get() = bind!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        bind = FragmentFavoriteBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        listFavorite()
+@AndroidEntryPoint
+class FavoriteFragment : BaseFragment<FragmentFavoriteBinding, FavoriteViewModel>(
+    FragmentFavoriteBinding::inflate
+) {
+    override fun initView() {
+        onView()
         onClick()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        bind = null
+    private fun onView() {
+        viewModelInstance.getFavoriteMovie()
     }
 
     private fun onClick() {
         binding.apply {
-            ivBackHomepage.setOnClickListener {
-                findNavController().navigate(R.id.action_favoriteFragment_to_homeFragment)
+            ivBack.setOnClickListener {
+                moveNav()
             }
         }
     }
 
-    private fun listFavorite() {
-
+    override fun observeData() {
+        lifecycleScope.launchWhenStarted {
+            viewModelInstance.getFavoriteMovieResult.collect {
+                if (it is Resource.Success) {
+                    setDataAdapter(it.data)
+                }
+            }
+        }
     }
 
+    private fun setDataAdapter(data: List<FavoriteEntity>?) {
+        binding.apply {
+            val adapterFavorite = FavoriteAdapter {
+                moveNav(
+                    FavoriteFragmentDirections
+                    .actionFavoriteFragmentToDetailMovieFragment()
+                    .setId(it.idMovie)
+                )
+            }
+            adapterFavorite.submitList(data)
+            rvListFavorite.adapter = adapterFavorite
+        }
+    }
 }
