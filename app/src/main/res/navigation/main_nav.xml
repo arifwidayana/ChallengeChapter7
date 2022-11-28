@@ -124,6 +124,9 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/favoriteFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailMovieFragment"
