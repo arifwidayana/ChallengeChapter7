@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.Snackbar
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
@@ -62,7 +63,7 @@ abstract class BaseFragment<VB: ViewBinding, VM: ViewModel>(
     override fun showMessageSnackBar(isEnabled: Boolean, message: String?) {
         when{
             isEnabled -> {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, message.toString(), Toast.LENGTH_SHORT).show()
             }
         }
     }
