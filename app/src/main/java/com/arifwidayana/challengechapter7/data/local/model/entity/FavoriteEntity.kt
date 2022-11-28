@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class FavoriteEntity(
     @PrimaryKey
     var idMovie: Int,
-    var username: String
+    var username: String,
+    var isFavorite: Boolean
 )

@@ -15,6 +15,9 @@ interface FavoriteDao {
     @Query("SELECT * FROM favorite_table WHERE username = :username")
     fun getFavorite(username: String): Flow<List<FavoriteEntity>>
 
+    @Query("SELECT * FROM favorite_table WHERE idMovie = :idMovie")
+    fun getFavoriteById(idMovie: Int): Flow<FavoriteEntity>
+
     @Query("DELETE FROM favorite_table WHERE idMovie = :idMovie")
-    suspend fun deleteFavorite(idMovie: Int)
+    suspend fun deleteFavoriteById(idMovie: Int)
 }
