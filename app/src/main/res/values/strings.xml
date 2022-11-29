@@ -4,7 +4,7 @@
     <string name="username">Username</string>
     <string name="sign_in">Sign In</string>
     <string name="password">Password</string>
-    <string name="create_account">Create Account?</string>
+    <string name="create_account">Create Account</string>
     <string name="login">Login</string>
     <string name="start">Get Started</string>
     <string name="sign_up">Sign Up</string>
@@ -39,4 +39,5 @@
     <string name="favorite_watchlist">Favorite Watchlist</string>
     <string name="login_success">Login Success</string>
     <string name="login_failed">Login Failed, Please check email and password correctly</string>
+    <string name="forget_password">Forget Password?</string>
 </resources>
