@@ -6,22 +6,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presentation.ui.auth.login.LoginFragment">
 
-    <ProgressBar
-        android:id="@+id/pb_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pb_loading">
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:id="@+id/tv_title_sign_in"
@@ -75,13 +64,15 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tv_register"
+            android:id="@+id/tv_forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/create_account"
-            android:textColor="@color/black"
+            android:layout_marginTop="2dp"
+            android:padding="8dp"
+            android:text="@string/forget_password"
             android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@id/tf_password"
             app:layout_constraintTop_toBottomOf="@id/tf_password" />
 
@@ -93,7 +84,21 @@
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_register" />
+            app:layout_constraintTop_toBottomOf="@id/tv_forget_password" />
+
+        <TextView
+            android:id="@+id/tv_create_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/create_account"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_login" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

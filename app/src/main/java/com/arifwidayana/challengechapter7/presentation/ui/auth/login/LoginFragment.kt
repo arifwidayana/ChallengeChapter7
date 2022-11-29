@@ -21,7 +21,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             btnLogin.setOnClickListener {
                 authLoginUser()
             }
-            tvRegister.setOnClickListener {
+            tvCreateAccount.setOnClickListener {
                 moveNav(R.id.action_loginFragment_to_registerFragment)
             }
         }
@@ -43,14 +43,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
 
     private fun authLoginUser() {
         binding.apply {
-            val username = etUsername.text.toString()
-            val password = etPassword.text.toString()
             when {
                 checkFormValidation() -> {
                     viewModelInstance.loginUser(
                         LoginRequest(
-                            username = username,
-                            password = password
+                            username = etUsername.text.toString(),
+                            password = etPassword.text.toString()
                         )
                     )
                 }
