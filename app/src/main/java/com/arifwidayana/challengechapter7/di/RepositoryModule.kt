@@ -47,6 +47,12 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideForgetPasswordRepository(localDataSource: LocalDataSource): ForgetPasswordRepository {
+        return ForgetPasswordRepositoryImpl(localDataSource)
+    }
+
+    @Provides
+    @Singleton
     fun provideHomeRepository(
         userPreferenceDataSource: UserPreferenceDataSource,
         localDataSource: LocalDataSource,

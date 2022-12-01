@@ -2,6 +2,8 @@ package com.arifwidayana.challengechapter7.di
 
 import com.arifwidayana.challengechapter7.base.arch.BaseGenericViewModel
 import com.arifwidayana.challengechapter7.data.repository.*
+import com.arifwidayana.challengechapter7.presentation.ui.auth.forget.ForgetPasswordViewModel
+import com.arifwidayana.challengechapter7.presentation.ui.auth.forget.newpassword.NewPasswordViewModel
 import com.arifwidayana.challengechapter7.presentation.ui.auth.login.LoginViewModel
 import com.arifwidayana.challengechapter7.presentation.ui.auth.register.RegisterViewModel
 import com.arifwidayana.challengechapter7.presentation.ui.homepage.detailmovie.DetailMovieViewModel
@@ -49,6 +51,14 @@ object ViewModelModule {
     fun provideRegisterViewModel(registerRepository: RegisterRepository): RegisterViewModel {
         return BaseGenericViewModel(RegisterViewModel(registerRepository)).create(
             RegisterViewModel::class.java
+        )
+    }
+
+    @Provides
+    @FragmentScoped
+    fun provideForgetPasswordViewModel(forgetPasswordRepository: ForgetPasswordRepository): NewPasswordViewModel {
+        return BaseGenericViewModel(ForgetPasswordViewModel(forgetPasswordRepository)).create(
+            NewPasswordViewModel::class.java
         )
     }
 
