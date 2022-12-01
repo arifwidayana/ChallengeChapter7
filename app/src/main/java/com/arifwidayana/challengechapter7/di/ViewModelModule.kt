@@ -56,9 +56,9 @@ object ViewModelModule {
 
     @Provides
     @FragmentScoped
-    fun provideForgetPasswordViewModel(forgetPasswordRepository: ForgetPasswordRepository): NewPasswordViewModel {
+    fun provideForgetPasswordViewModel(forgetPasswordRepository: ForgetPasswordRepository): ForgetPasswordViewModel {
         return BaseGenericViewModel(ForgetPasswordViewModel(forgetPasswordRepository)).create(
-            NewPasswordViewModel::class.java
+            ForgetPasswordViewModel::class.java
         )
     }
 
