@@ -2,6 +2,7 @@ package com.arifwidayana.challengechapter7.data.local.model.dao
 
 import androidx.room.*
 import com.arifwidayana.challengechapter7.data.local.model.entity.UserEntity
+import com.arifwidayana.challengechapter7.data.local.model.request.ForgetPasswordRequest
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -14,6 +15,12 @@ interface UserDao {
 
     @Query("SELECT * FROM user_table WHERE username_user = :username")
     fun getUser(username: String?): Flow<UserEntity>
+
+    @Query("SELECT * FROM user_table WHERE username_user = :username AND email_user = :email")
+    fun findUser(username: String?, email: String?): Flow<ForgetPasswordRequest>
+
+    @Query("UPDATE user_table SET password_user = :password WHERE username_user = :username")
+    suspend fun updatePassword(username: String?, password: String?)
 
     @Query("UPDATE user_table SET image_profile = :imageProfile WHERE username_user = :username")
     suspend fun updateImageProfile(imageProfile: String?, username: String?)
