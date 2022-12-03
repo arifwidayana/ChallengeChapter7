@@ -64,6 +64,14 @@ object ViewModelModule {
 
     @Provides
     @FragmentScoped
+    fun provideNewPasswordViewModel(newPasswordRepository: NewPasswordRepository): NewPasswordViewModel {
+        return BaseGenericViewModel(NewPasswordViewModel(newPasswordRepository)).create(
+            NewPasswordViewModel::class.java
+        )
+    }
+
+            @Provides
+    @FragmentScoped
     fun provideHomeViewModel(homepageRepository: HomeRepository): HomeViewModel {
         return BaseGenericViewModel(HomeViewModel(homepageRepository)).create(
             HomeViewModel::class.java

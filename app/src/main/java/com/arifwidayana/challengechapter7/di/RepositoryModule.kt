@@ -53,6 +53,12 @@ object RepositoryModule {
 
     @Provides
     @Singleton
+    fun provideNewPasswordRepository(localDataSource: LocalDataSource): NewPasswordRepository {
+        return NewPasswordRepositoryImpl(localDataSource)
+    }
+
+    @Provides
+    @Singleton
     fun provideHomeRepository(
         userPreferenceDataSource: UserPreferenceDataSource,
         localDataSource: LocalDataSource,
