@@ -40,4 +40,9 @@
     <string name="login_success">Login Success</string>
     <string name="login_failed">Login Failed, Please check email and password correctly</string>
     <string name="forget_password">Forget Password?</string>
+    <string name="forgot_password">Forget Password</string>
+    <string name="find">Find</string>
+    <string name="new_password">Change New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="submit">Submit</string>
 </resources>
