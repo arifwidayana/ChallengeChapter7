@@ -12,7 +12,7 @@ interface LocalDataSource {
     suspend fun registerUser(registerRequest: RegisterRequest)
     suspend fun loginUser(loginRequest: LoginRequest): Flow<UserEntity>
     suspend fun getUser(username: String): Flow<UserEntity>
-    suspend fun findUser(forgetPasswordRequest: ForgetPasswordRequest): Flow<ForgetPasswordRequest>
+    suspend fun findUser(forgetPasswordRequest: ForgetPasswordRequest): Flow<UserEntity>
     suspend fun updatePassword(newPasswordRequest: NewPasswordRequest)
     suspend fun updateImageProfile(profileUserRequest: ProfileUserRequest)
     suspend fun updateProfileUser(username: String, editProfileRequest: EditProfileRequest)
@@ -54,7 +54,7 @@ class LocalDataSourceImpl @Inject constructor(
         return userDao.getUser(username)
     }
 
-    override suspend fun findUser(forgetPasswordRequest: ForgetPasswordRequest): Flow<ForgetPasswordRequest> {
+    override suspend fun findUser(forgetPasswordRequest: ForgetPasswordRequest): Flow<UserEntity> {
         return userDao.findUser(
             username = forgetPasswordRequest.username,
             email = forgetPasswordRequest.email
