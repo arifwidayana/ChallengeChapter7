@@ -21,6 +21,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(
             btnLogin.setOnClickListener {
                 authLoginUser()
             }
+            tvForgetPassword.setOnClickListener {
+                moveNav(R.id.action_loginFragment_to_forgetPasswordFragment)
+            }
             tvCreateAccount.setOnClickListener {
                 moveNav(R.id.action_loginFragment_to_registerFragment)
             }
