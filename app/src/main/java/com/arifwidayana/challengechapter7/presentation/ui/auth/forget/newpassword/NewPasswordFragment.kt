@@ -2,7 +2,9 @@ package com.arifwidayana.challengechapter7.presentation.ui.auth.forget.newpasswo
 
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.arifwidayana.challengechapter7.R
 import com.arifwidayana.challengechapter7.base.arch.BaseFragment
+import com.arifwidayana.challengechapter7.base.model.Resource
 import com.arifwidayana.challengechapter7.data.local.model.request.NewPasswordRequest
 import com.arifwidayana.challengechapter7.databinding.FragmentNewPasswordBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +34,12 @@ class NewPasswordFragment : BaseFragment<FragmentNewPasswordBinding, NewPassword
 
     override fun observeData() {
         lifecycleScope.launchWhenStarted {
-            viewModelInstance
+            viewModelInstance.updateUserResult.collect {
+                if (it is Resource.Success) {
+                    showMessageToast(true, it.message)
+                    moveNav(R.id.action_newPasswordFragment_to_loginFragment)
+                }
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ class NewPasswordViewModel @Inject constructor(
     override fun updateUser(newPasswordRequest: NewPasswordRequest) {
         viewModelScope.launch {
             newPasswordRepository.updatePassword(newPasswordRequest).collect {
-                _updateUserResult.value = Resource.Success()
+                _updateUserResult.value = Resource.Success(message = "Your password has been changed")
             }
         }
     }
